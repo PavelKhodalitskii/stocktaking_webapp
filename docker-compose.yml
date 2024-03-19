@@ -1,21 +1,24 @@
 version: "3"
 
 services: 
-  backend_django:
-    build:
-      .
-    ports:
-      - "8000:8000"
-    depends_on:
-      - postgres
-
   postgres:
     image: postgres:14
     environment:
       POSTGRES_DB: "scratchdb"
       POSTGRES_USER: "scratch"
       POSTGRES_PASSWORD: "admin"
-    ports:
-      - "5432:5432"
     expose:
-      - 5432
+      - 8888
+    ports:
+      - "8888:8888"
+
+  backend_django:
+    restart: always
+    build:
+      .
+    ports:
+      - "8000:8000"
+    volumes:
+      - .:/inventory_checking
+    depends_on:
+      - postgres
