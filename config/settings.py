@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'items_management.apps.ItemsManagmentConfig',
     'licences_management.apps.LicencesManagementConfig',
     'account.apps.AccountConfig',
+    'rest_framework'
 ]
 
 MIDDLEWARE = [
