@@ -6,6 +6,8 @@ from django.urls import reverse
 
 class CustomUser(AbstractUser):
     slug = models.SlugField(max_length=255, unique=True, verbose_name="URL пользователя")
+    office_building = models.ForeignKey('OfficeBuilding', related_name='users', null=True, on_delete=models.SET_NULL)
+    role = models.ForeignKey('Role', related_name='users', null=True, on_delete=models.SET_NULL)
     # photo = models.ImageField(verbose_name="Фото", blank=True, null=True)
 
     def __str__(self):
@@ -13,3 +15,25 @@ class CustomUser(AbstractUser):
     
     def get_absolute_url(self):
         return reverse('profile', kwargs={'profile_slug': self.slug})
+
+class Role(models.Model):
+    class Meta:
+        verbose_name = 'Роль'
+        verbose_name_plural = 'Роли'
+
+    name = models.CharField(max_length=75, verbose_name="Имя роли")
+
+class Office(models.Model):
+    class Meta:
+        verbose_name = 'Помещение'
+        verbose_name_plural = 'Помещения'
+
+    name = models.CharField(max_length=255, verbose_name="Имя помещения")
+    office_building = models.ForeignKey('OfficeBuilding', related_name="offices", on_delete=models.CASCADE)
+
+class OfficeBuilding(models.Model):
+    class Meta:
+        verbose_name = 'Офис'
+        verbose_name_plural = 'Офисы'
+
+    address = models.CharField(max_length=512, verbose_name="Адрес")
