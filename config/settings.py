@@ -30,6 +30,7 @@ ALLOWED_HOSTS = ['localhost', '127.0.0.1', '0.0.0.0']
 # Application definition
 
 INSTALLED_APPS = [
+    'account.apps.AccountConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -40,8 +41,7 @@ INSTALLED_APPS = [
     'rest_framework',
 
     'items_management.apps.ItemsManagmentConfig',
-    'licences_management.apps.LicencesManagementConfig',
-    'account.apps.AccountConfig'
+    'licences_management.apps.LicencesManagementConfig'
 ]
 
 MIDDLEWARE = [
