@@ -37,10 +37,11 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+    'rest_framework',
+
     'items_management.apps.ItemsManagmentConfig',
     'licences_management.apps.LicencesManagementConfig',
-    'account.apps.AccountConfig',
-    'rest_framework'
+    'account.apps.AccountConfig'
 ]
 
 MIDDLEWARE = [
@@ -79,8 +80,12 @@ WSGI_APPLICATION = 'config.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'stocktalkingdb',
+        'USER': 'admintest',
+        'PASSWORD': 'admintest123',
+        'HOST': 'postgres',
+        'PORT': '5432',
     }
 }
 
