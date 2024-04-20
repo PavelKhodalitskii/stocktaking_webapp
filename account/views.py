@@ -1,9 +1,23 @@
 from django.http import HttpResponse
-from django.shortcuts import render
-from django.contrib.auth import authenticate, login
+from django.shortcuts import redirect, render
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth import views as auth_views
+from django.urls import reverse_lazy
+
 
 from .forms import LoginForm
 
+
+class LoginUser(auth_views.LoginView):
+    form_class = LoginForm
+    template_name = 'login.html'
+
+    def get_success_url(self) -> str:
+        return reverse_lazy('items_list')
+
+def logout_user(request):
+    logout(request)
+    return redirect('login')
 
 def user_login(request):
     if request.method == 'POST':
