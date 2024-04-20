@@ -30,6 +30,7 @@ ALLOWED_HOSTS = ['localhost', '127.0.0.1', '0.0.0.0']
 # Application definition
 
 INSTALLED_APPS = [
+    'account.apps.AccountConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -40,8 +41,7 @@ INSTALLED_APPS = [
     'rest_framework',
 
     'items_management.apps.ItemsManagmentConfig',
-    'licences_management.apps.LicencesManagementConfig',
-    'account.apps.AccountConfig'
+    'licences_management.apps.LicencesManagementConfig'
 ]
 
 MIDDLEWARE = [
@@ -132,3 +132,7 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTH_USER_MODEL = 'account.CustomUser'
+
+LOGIN_REDIRECT_URL = 'items_list'
+LOGIN_URL = 'login'
+LOGOUT_URL = 'logout'
