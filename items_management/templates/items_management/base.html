@@ -10,7 +10,7 @@
 <body>
     {% if request.user.is_authenticated %}
         <p>Вы авторизованы как: <a>{{ user.username }}</a></p>
-        <a href="{% url 'logout' %}">Выйти</a>
+        <a href="{% url 'site_logout' %}">Выйти</a>
     {% endif %}
     {% block content %}
     {% endblock %}

@@ -137,8 +137,8 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 AUTH_USER_MODEL = 'account.CustomUser'
 
 LOGIN_REDIRECT_URL = 'items_list'
-LOGIN_URL = 'login'
-LOGOUT_URL = 'logout'
+LOGIN_URL = 'site_login'
+LOGOUT_URL = 'site_logout'
 
 
 REST_FRAMEWORK = {

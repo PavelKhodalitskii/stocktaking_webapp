@@ -6,9 +6,9 @@ from .views import user_login, logout_user, LoginUser
 
 urlpatterns = [
     # path('login/', user_login, name='login'),
-    path('login/', LoginUser.as_view(), name='login'),
-    path('logout/', logout_user, name='logout'),
-    path('api/v1/auth/', include('djoser.urls')),
-    re_path(r'^auth/', include('djoser.urls.authtoken'))  
+    path('login/', LoginUser.as_view(), name='site_login'),
+    path('logout/', logout_user, name='site_logout'),
+    # path('api/v1/auth/', include('djoser.urls')),
+    path('auth/', include('djoser.urls.authtoken'))  
 ]
 

@@ -17,7 +17,7 @@ class LoginUser(auth_views.LoginView):
 
 def logout_user(request):
     logout(request)
-    return redirect('login')
+    return redirect('site_login')
 
 def user_login(request):
     if request.method == 'POST':
