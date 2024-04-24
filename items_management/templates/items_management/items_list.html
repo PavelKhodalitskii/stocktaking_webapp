@@ -2,9 +2,18 @@
 
 {% block content %}
     <div class="items_list">
+        <form class="filter" action="{% url 'items_list' %}" method="GET">
+            <select name="value_sort">
+                <option value="">Стоимость</option>
+                <option value="expensive" {% if request.GET.sort == 'expensive' %} selected {% endif %}>Сначала дорогие</option>
+                <option value="cheap" {% if request.GET.sort == 'cheap' %} selected {% endif %}>Сначала дешевые</option>
+            </select>
+            <button class="apply-filters" type="submit">Применить</button>
+        </form>
+
         {% for item in items %}
             <div class="item">
-                <h3>{{ item.name }}, {{item.item_number}}</h3>
+                <h3><a href="{{ item.get_absolute_url }}">{{ item.name }}</a>, {{item.item_number}}</h3>
                 <p>{{item.value}}</p>
                 <p>{{item.financially_responsible_person}}</p>
             </div>
