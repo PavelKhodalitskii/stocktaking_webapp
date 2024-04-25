@@ -1,6 +1,7 @@
 from python:3.10.12
 
 RUN apt-get update
+RUN apt install vim
 
 WORKDIR inventory_checking
 COPY . .
@@ -16,4 +17,4 @@ CMD python3 manage.py makemigrations account && \
     python3 manage.py makemigrations reports && \
     python3 manage.py migrate --run-syncdb && \
     # python3 manage.py test && \
-    python3 manage.py runserver 0.0.0.0:8000
+    python3 manage.py runserver_plus --cert-file cert.crt 0.0.0.0:8000

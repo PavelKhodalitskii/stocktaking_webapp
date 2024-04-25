@@ -2,3 +2,6 @@ django
 psycopg2
 djangorestframework
 djoser
+git+https://github.com/django-extensions/django-extensions.git@25a41d8a3ecb24c009c5f4cac6010a091a3c91c8
+werkzeug==2.2.2
+pyOpenSSL==24.0.0
