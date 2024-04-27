@@ -15,6 +15,8 @@ class CustomUser(AbstractUser):
     
     def get_absolute_url(self):
         return reverse('profile', kwargs={'profile_slug': self.slug})
+    
+    
 
 class Role(models.Model):
     class Meta:
@@ -23,6 +25,9 @@ class Role(models.Model):
 
     name = models.CharField(max_length=75, verbose_name="Имя роли")
 
+    def __str__(self):
+        return self.name
+
 class Office(models.Model):
     class Meta:
         verbose_name = 'Помещение'
@@ -30,6 +35,9 @@ class Office(models.Model):
 
     name = models.CharField(max_length=255, verbose_name="Имя помещения")
     office_building = models.ForeignKey('OfficeBuilding', related_name="offices", on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.name
 
 class OfficeBuilding(models.Model):
     class Meta:
