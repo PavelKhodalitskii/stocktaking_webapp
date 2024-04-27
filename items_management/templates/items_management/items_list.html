@@ -3,14 +3,30 @@
 {% block content %}
     <div class="items_list">
         <form class="filter" action="{% url 'items_list' %}" method="GET">
-            <select name="value_sort">
-                <option value="">Стоимость</option>
-                <option value="expensive" {% if request.GET.sort == 'expensive' %} selected {% endif %}>Сначала дорогие</option>
-                <option value="cheap" {% if request.GET.sort == 'cheap' %} selected {% endif %}>Сначала дешевые</option>
+            <select name='office'>
+                <option value="">Помещение</option>
+                {% for office in offices %}
+                    <option value="{{ office.id }}" {% if request.GET.office == office.id %} selected {% endif %}>{{ office.name }}</option>
+                {% endfor %}
             </select>
-            <button class="apply-filters" type="submit">Применить</button>
+            <select name="type">
+                <option value="">Тип</option>
+                {% for type in types %}
+                    <option value="{{ type.id }}" {% if request.GET.type == type.id %} selected {% endif %}>{{ type.name }}</option>
+                {% endfor %}
+            </select>
+            <select name="responsible_person">
+                <option value="">Ответственный</option>
+                {% for user in users %}
+                    <option value="{{ user.id }}" {% if request.GET.responsible_person == user.id %} selected {% endif %}>{{ user.first_name }} {{ user.last_name }}</option>
+                {% endfor %}
+            </select>
+            <button type="submit">Применить</button>
         </form>
-
+        <button onclick="changeOrder(sort_name='value_sort', value_1='expensive', value_2='cheap', default_value='cheap')">Стоимость</button>
+        <button onclick="changeOrder(sort_name='assessed_value_sort', value_1='expensive', value_2='cheap', default_value='cheap')">Оценочная стоимость</button>
+        <button onclick="changeOrder(sort_name='amount_sort', value_1='ascending', value_2='descending', default_value='descending')">Колличество</button>
+        <button onclick="changeOrder(sort_name='valid_from_sort', value_1='ascending', value_2='descending', default_value='descending')">Актуально на</button>
         {% for item in items %}
             <div class="item">
                 <h3><a href="{{ item.get_absolute_url }}">{{ item.name }}</a>, {{item.item_number}}</h3>
@@ -19,4 +35,28 @@
             </div>
         {% endfor %}
     </div>
+    <script>
+        // Эта функция меняет порядок сортировки на противополжный
+        // Имя сортировки - то имя, которое необходимо указать во view при получении нужного queryset.
+        // Пример: смотреть в views.py
+        function changeOrder(sort_name, value_1, value_2, default_value) {
+            let url = ''
+            let cur_url = window.location.href;
+            let includes_qm = cur_url.includes('?')
+            let includes_sort = cur_url.includes(sort_name);
+
+            if (!includes_sort && !includes_qm) {
+                url = cur_url + `?${sort_name}=` + default_value;
+            } else if (includes_qm && !includes_sort) {
+                url = cur_url + `&${sort_name}=` + default_value;
+            } else {
+                if (cur_url.includes(`${sort_name}=${value_1}`)) {            
+                    url = cur_url.replace(`${sort_name}=${value_1}`, `${sort_name}=${value_2}`);
+                } else if (cur_url.includes(`${sort_name}=${value_2}`)) {
+                    url = cur_url.replace(`${sort_name}=${value_2}`, `${sort_name}=${value_1}`);
+                }                
+            }
+            window.location.href = url;
+        }
+    </script>
 {% endblock %}
