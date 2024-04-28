@@ -17,13 +17,19 @@ class ItemsListView(LoginRequiredMixin, ListView):
     def get_context_data(self, **kwargs: Any) -> dict[str, Any]:
         context = super().get_context_data(**kwargs)
         context['title'] = "Объекты инвентаризации"
-        context['offices'] = Office.objects.all()
+        
+        office_building_slug = self.kwargs['officebuilding_slug']
+
+        context['offices'] = Office.objects.all().filter(office_building__slug=office_building_slug)
         context['types'] = ItemType.objects.all()
-        context['users'] = CustomUser.objects.all()
+        context['users'] = CustomUser.objects.all().filter(office_building__slug=office_building_slug)
+        context['office_building_slug'] = office_building_slug
         return context
 
     def get_queryset(self) -> generics.QuerySet[Any]:
+        office_building_slug = self.kwargs['officebuilding_slug']
         queryset = super().get_queryset()
+        queryset = queryset.filter(office__office_building__slug=office_building_slug)
 
         office_id = self.request.GET.get('office')
         if office_id:

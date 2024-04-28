@@ -2,7 +2,7 @@
 
 {% block content %}
     <div class="items_list">
-        <form class="filter" action="{% url 'items_list' %}" method="GET">
+        <form class="filter" action="{% url 'items_list' office_building_slug %}" method="GET">
             <select name='office'>
                 <option value="">Помещение</option>
                 {% for office in offices %}

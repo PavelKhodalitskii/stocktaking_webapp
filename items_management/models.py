@@ -27,7 +27,7 @@ class InventoryItems(models.Model):
         return str(self.name) + str(self.item_number)
     
     def get_absolute_url(self):
-        return reverse('item_detail', kwargs={'item_slug': self.slug})
+        return reverse('item_detail', kwargs={'item_slug': self.slug, 'officebuilding_slug': self.office.office_building.slug})
     
 class ItemType(models.Model):
     class Meta:
