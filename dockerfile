@@ -1,7 +1,6 @@
 from python:3.10.12
 
 RUN apt-get update
-RUN apt install vim
 
 WORKDIR inventory_checking
 COPY . .

@@ -44,4 +44,5 @@ class OfficeBuilding(models.Model):
         verbose_name = 'Офис'
         verbose_name_plural = 'Офисы'
 
+    slug = models.SlugField(max_length=512, verbose_name="URL", unique=True)
     address = models.CharField(max_length=512, verbose_name="Адрес")
