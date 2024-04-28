@@ -6,6 +6,7 @@ from django.urls import reverse_lazy
 
 
 from .forms import LoginForm
+from .models import OfficeBuilding
 
 
 class LoginUser(auth_views.LoginView):
@@ -13,7 +14,7 @@ class LoginUser(auth_views.LoginView):
     template_name = 'login.html'
 
     def get_success_url(self) -> str:
-        return reverse_lazy('items_list')
+        return reverse_lazy('items_list', kwargs={'officebuilding_slug': OfficeBuilding.objects.get(pk=1).slug})
 
 def logout_user(request):
     logout(request)
