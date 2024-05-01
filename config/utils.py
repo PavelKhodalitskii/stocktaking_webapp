@@ -8,7 +8,7 @@ def debug_prepare():
     try: 
         superuser = CustomUser.objects.get(username="admin")
     except:
-        superuser = CustomUser(username="admin", is_staff=True, is_active=True)
+        superuser = CustomUser(username="admin", is_staff=True, is_superuser=True, is_active=True)
         superuser.set_password("admin")
         superuser.save()
 
@@ -17,7 +17,5 @@ def debug_prepare():
         office_building = OfficeBuilding.objects.get(pk=1)
     except:
         office_building = OfficeBuilding(slug='en_plus_digital', address="ул. Нижняя Набережная, 14, Иркутск, Иркутская обл., 664011")
-        office = Office("301")
-        office.save()
-        office_building.offices.add(office)
+        office = Office("301", office_building.pk)
         office_building.save()
