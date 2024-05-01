@@ -75,6 +75,12 @@ class ItemDetailView(DetailView):
     slug_url_kwarg = 'item_slug'
     context_object_name = 'item'
 
+    def get_context_data(self, **kwargs: Any) -> dict[str, Any]:
+        context = super().get_context_data(**kwargs)
+
+        office_building_slug = self.kwargs['officebuilding_slug']
+        context['office_building_slug'] = office_building_slug
+        return context
 
 class InvenoryItemsAPIView(generics.ListAPIView):
     queryset = InventoryItems.objects.all()
