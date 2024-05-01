@@ -15,5 +15,5 @@ CMD python3 manage.py makemigrations account && \
     python3 manage.py makemigrations licences_management && \
     python3 manage.py makemigrations reports && \
     python3 manage.py migrate --run-syncdb && \
-    # python3 manage.py test && \
+    python3 manage.py test && \
     python3 manage.py runserver_plus --cert-file cert.crt 0.0.0.0:8000
