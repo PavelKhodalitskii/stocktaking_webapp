@@ -25,22 +25,27 @@ SECRET_KEY = 'django-insecure-zbv3v&!d%7%5l4wq65cyt8_4#x1@%6jh%73#e6o)_ajf!86l3s
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1', '0.0.0.0']
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', '0.0.0.0', 'stocktalking.ru']
 
 # Application definition
 
 INSTALLED_APPS = [
+    'account.apps.AccountConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django_extensions',
+
+    'rest_framework',
+    'rest_framework.authtoken',
+    'djoser',
 
     'items_management.apps.ItemsManagmentConfig',
     'licences_management.apps.LicencesManagementConfig',
-    'account.apps.AccountConfig',
-    'rest_framework'
+    'reports.apps.ReportsConfig'
 ]
 
 MIDDLEWARE = [
@@ -79,8 +84,12 @@ WSGI_APPLICATION = 'config.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'stocktalkingdb',
+        'USER': 'admintest',
+        'PASSWORD': 'admintest123',
+        'HOST': 'postgres',
+        'PORT': '5432',
     }
 }
 
@@ -127,3 +136,19 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTH_USER_MODEL = 'account.CustomUser'
+
+LOGIN_REDIRECT_URL = 'items_list'
+LOGIN_URL = 'site_login'
+LOGOUT_URL = 'site_logout'
+
+
+REST_FRAMEWORK = {
+    'DEFAULT_RENDERER_CLASS': [
+        'rest_framework.renderers.JSONRenderer',
+        'rest_framework.renderers.BrowsableAPIRenderer',
+    ],
+
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.TokenAuthentication',
+    ]
+}

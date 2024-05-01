@@ -1,17 +1,6 @@
 version: "3"
 
 services: 
-  postgres:
-    image: postgres:14
-    environment:
-      POSTGRES_DB: "scratchdb"
-      POSTGRES_USER: "scratch"
-      POSTGRES_PASSWORD: "admin"
-    expose:
-      - 8888
-    ports:
-      - "8888:8888"
-
   backend_django:
     restart: always
     build:
@@ -22,3 +11,14 @@ services:
       - .:/inventory_checking
     depends_on:
       - postgres
+
+  postgres:
+    image: postgres:14
+    environment:
+      POSTGRES_DB: "stocktalkingdb"
+      POSTGRES_USER: "admintest"
+      POSTGRES_PASSWORD: "admintest123"
+    expose:
+      - 5432
+    ports:
+      - "5432:5432"

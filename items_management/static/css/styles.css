@@ -1,0 +1,110 @@
+body{
+  background-color: #ffffff;
+  margin: 0;
+}
+
+h1 {
+  font-family: 'Geologica';
+  font-weight: 500;
+  font-size: 30pt;
+  color: black;
+  text-align: left;
+}
+
+h2 {
+  font-family: 'Geologica';
+  font-weight: 500;
+  font-size: 20pt;
+  color: black;
+  text-align: left;
+}
+
+h3 {
+  font-family: 'Geologica';
+  font-weight: 400;
+  font-size: 20pt;
+  color: black;
+  text-align: left;
+}
+
+p {
+  font-family: 'Geologica';
+  font-weight: 200;
+  font-size: 15pt;
+  color: black;
+  text-align: left;
+}
+
+a {
+  text-decoration: none;
+  font-family: 'Geologica';
+  font-weight: 200;
+  font-size: 15pt;
+  color: black;
+  text-align: left;
+}
+
+.header {
+  height: 75px;
+  display: flex;
+  background: #00504E;
+}
+
+.navigation_bar {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+}
+
+.naviagation_list {
+  display: flex;
+  flex-wrap: wrap;
+  padding-left: 0px;
+}
+
+.header_item {
+  display: flex;
+  align-items: center;
+  color: white;
+  font-weight: 400;
+  text-align: left;
+  cursor: pointer;
+  margin: 20px;
+  list-style: none;
+}
+
+.header_link {
+  font-size: 13pt;
+  text-align: center;
+  margin: 0, auto;
+  color: white;
+}
+
+.user_info {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  float: right;
+  margin-right: 20px;
+}
+
+.user_info p {
+  color: white;
+  margin: 20px;
+}
+
+.user_info a {
+  color: white;
+}
+
+.underline {
+  height: 3px;
+  background-color: #EA2929;
+}
+
+.content {
+  margin: 40px;
+}
+
