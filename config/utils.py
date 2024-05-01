@@ -4,7 +4,7 @@ from items_management.models import InventoryItems
 def debug_prepare():
     print("Preparing for debug")
 
-    superuser
+    superuser = ''
     try: 
         superuser = CustomUser.objects.get(username="admin")
     except:
@@ -12,7 +12,7 @@ def debug_prepare():
         superuser.set_password("admin")
         superuser.save()
 
-    office_building
+    office_building = ''
     try:
         office_building = OfficeBuilding.objects.get(pk=1)
     except:
