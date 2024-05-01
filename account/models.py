@@ -16,8 +16,6 @@ class CustomUser(AbstractUser):
     def get_absolute_url(self):
         return reverse('profile', kwargs={'profile_slug': self.slug})
     
-    
-
 class Role(models.Model):
     class Meta:
         verbose_name = 'Роль'
@@ -46,3 +44,6 @@ class OfficeBuilding(models.Model):
 
     slug = models.SlugField(max_length=512, verbose_name="URL", unique=True)
     address = models.CharField(max_length=512, verbose_name="Адрес")
+
+    def __str__(self):
+        return self.address

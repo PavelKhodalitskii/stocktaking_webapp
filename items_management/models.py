@@ -42,9 +42,15 @@ class ItemType(models.Model):
 
     name = models.CharField(max_length=75, verbose_name='Имя типа')
 
+    def __str__(self):
+        return self.name
+
 class Status(models.Model):
     class Meta:
         verbose_name = 'Статус'
         verbose_name_plural = 'Статусы'
 
     name = models.CharField(max_length=75, verbose_name='Имя статуса')
+
+    def __str__(self):
+        return self.name
