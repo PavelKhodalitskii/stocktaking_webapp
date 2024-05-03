@@ -11,7 +11,7 @@ class StocktalkingReport(models.Model):
         verbose_name = 'Отчёт'
         verbose_name_plural = 'Отчёт'
         
-    author = models.ForeignKey(InventoryItems, related_name='report', null=True, on_delete=models.SET_NULL, verbose_name="Автор")
+    author = models.ForeignKey(CustomUser, related_name='report', null=True, on_delete=models.SET_NULL, verbose_name="Автор")
     ivent = models.ForeignKey('Ivent', related_name='report', null=True, on_delete=models.SET_NULL, verbose_name="Ивент инвенатризации")
     type = models.ForeignKey(ItemType, related_name='report', null=True, on_delete=models.SET_NULL, verbose_name="Тип")
     items = models.ManyToManyField(InventoryItems, through='RelationItemsReports', related_name='reports', verbose_name="Предметы")
