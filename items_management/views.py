@@ -12,9 +12,9 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 
 from .models import InventoryItems, ItemType
 from account.models import CustomUser, Office
-from reports.models import StocktalkingReport
+from reports.models import StocktalkingReport, RelationItemsReports
 
-from .serizalizers import InventoryItemsSerializer, StocktalkingListSerizalizer
+from .serizalizers import InventoryItemsSerializer, StocktalkingListSerizalizer, RelationItemsReportsSerizalizer
 from .permissions import IsOwner
 
 
@@ -101,10 +101,14 @@ class StocktalkingListAPIView(APIView):
     def get(self, request):
         report = StocktalkingReport.objects.get(author__id = request.user.id)
         items = report.items.all()
+        rel_info = RelationItemsReports.objects.all().filter(report=report)
 
         return Response({'report': StocktalkingListSerizalizer(report, many=False).data,
-                         'report_items': InventoryItemsSerializer(items, many=True).data
+                         'rel_info': RelationItemsReportsSerizalizer(rel_info, many=True).data
                          })
+    
+    def put(self, request):
+        return Response({'status': "ok"})
 
 # Create your views here.
 def main_view():
