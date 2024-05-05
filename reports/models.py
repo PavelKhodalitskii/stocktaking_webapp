@@ -5,7 +5,6 @@ from django.urls import reverse
 from items_management.models import InventoryItems, ItemType, Status
 from account.models import CustomUser, OfficeBuilding
 
-
 class StocktalkingReport(models.Model):
     class Meta:
         verbose_name = 'Отчёт'
