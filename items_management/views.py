@@ -110,16 +110,27 @@ class StocktalkingListAPIView(APIView):
 class ReportItemsApiView(APIView):
     permission_classes = (IsAdminUser, IsOwner)
     serializer_class = RelationItemsReportsSerizalizer
+    post_fields_required = ['datatime', 'item', 'report']
+    put_fields_forbidden = ['id', 'item', 'report']
 
-    def validate_data(self, data):
-        fields_required = ['datatime', 'item', 'report']
+    def validate_post_data(self, data):
+        self.post_fields_required = ['datatime', 'item', 'report']
 
-        for field in fields_required:
+        for field in self.post_fields_required:
             if not field in data.keys():
                 return False
 
         return True
+    
+    def validate_put_data(self, data):
+        self.put_fields_forbidden = ['id', 'item', 'report']
 
+        for field in self.put_fields_forbidden:
+            if not field in data.keys():
+                return False
+
+        return True
+    
     def get(self, request, item_id):
         object = RelationItemsReports.objects.get(id=item_id)
         if object:
@@ -129,7 +140,7 @@ class ReportItemsApiView(APIView):
     
     def post(self, request, item_id):
         serializer = RelationItemsReportsSerizalizer(data=request.data)
-        if serializer.is_valid() and self.validate_data(request.data):
+        if serializer.is_valid() and self.validate_post_data(request.data):
             serializer.save()
             return Response({"status": "Item successfuly added to relation"})
         else:
@@ -137,15 +148,13 @@ class ReportItemsApiView(APIView):
         
     def put(self, request, item_id):
         object = RelationItemsReports.objects.get(id = item_id)
-        if object:
-            serializer = RelationItemsReportsSerizalizer(object, data=request.data)
-            if serializer.is_valid():
-                serializer.save()
-                return Response({"status": "Item successfuly updated"})
-            else:
-                return Response({"status": "Wrong data provided"})
-        return Response({"status": "No object with such id"})
-
-# Create your views here.
-def main_view():
-    return HttpResponse()
+        if self.validate_put_data(request.data):
+            if object:
+                serializer = RelationItemsReportsSerizalizer(object, data=request.data)
+                if serializer.is_valid():
+                    serializer.save()
+                    return Response({"status": "Item successfuly updated"})
+                else:
+                    return Response({"status": "Wrong data provided"})
+            return Response({"status": "No object with such id"})
+        return Response({"status": f"Forbidden fields change. Note: it's forbidden to change fields: {self.put_fields_forbidden}"})
