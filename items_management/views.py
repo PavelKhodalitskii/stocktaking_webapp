@@ -120,12 +120,14 @@ class ReportItemsApiView(APIView):
 
         return True
 
-    def get(self, request, report_id):
-        reports = RelationItemsReports.objects.all().filter(report__id = report_id)
-        return Response({'items': RelationItemsReportsSerizalizer(reports, many=True).data
-                         })
+    def get(self, request, item_id):
+        object = RelationItemsReports.objects.get(id=item_id)
+        if object:
+            return Response({'item': RelationItemsReportsSerizalizer(object, many=False).data
+                            })
+        return Response({"status": "No object with such id"})
     
-    def post(self, request, report_id):
+    def post(self, request, item_id):
         serializer = RelationItemsReportsSerizalizer(data=request.data)
         if serializer.is_valid() and self.validate_data(request.data):
             serializer.save()
@@ -133,13 +135,16 @@ class ReportItemsApiView(APIView):
         else:
             return Response({"status": "Wrong data provided"})
         
-    def put(self, request, report_id):
-        serializer = RelationItemsReportsSerizalizer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response({"status": "Item successfuly updated"})
-        else:
-            return Response({"status": "Wrong data provided"})
+    def put(self, request, item_id):
+        object = RelationItemsReports.objects.get(id = item_id)
+        if object:
+            serializer = RelationItemsReportsSerizalizer(object, data=request.data)
+            if serializer.is_valid():
+                serializer.save()
+                return Response({"status": "Item successfuly updated"})
+            else:
+                return Response({"status": "Wrong data provided"})
+        return Response({"status": "No object with such id"})
 
 # Create your views here.
 def main_view():
