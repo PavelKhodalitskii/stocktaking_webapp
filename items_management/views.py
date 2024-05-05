@@ -104,11 +104,42 @@ class StocktalkingListAPIView(APIView):
         rel_info = RelationItemsReports.objects.all().filter(report=report)
 
         return Response({'report': StocktalkingListSerizalizer(report, many=False).data,
-                         'rel_info': RelationItemsReportsSerizalizer(rel_info, many=True).data
+                         'relations_info': RelationItemsReportsSerizalizer(rel_info, many=True).data
+                         })
+
+class ReportItemsApiView(APIView):
+    permission_classes = (IsAdminUser, IsOwner)
+    serializer_class = RelationItemsReportsSerizalizer
+
+    def validate_data(self, data):
+        fields_required = ['datatime', 'item', 'report']
+
+        for field in fields_required:
+            if not field in data.keys():
+                return False
+
+        return True
+
+    def get(self, request, report_id):
+        reports = RelationItemsReports.objects.all().filter(report__id = report_id)
+        return Response({'items': RelationItemsReportsSerizalizer(reports, many=True).data
                          })
     
-    def put(self, request):
-        return Response({'status': "ok"})
+    def post(self, request, report_id):
+        serializer = RelationItemsReportsSerizalizer(data=request.data)
+        if serializer.is_valid() and self.validate_data(request.data):
+            serializer.save()
+            return Response({"status": "Item successfuly added to relation"})
+        else:
+            return Response({"status": "Wrong data provided"})
+        
+    def put(self, request, report_id):
+        serializer = RelationItemsReportsSerizalizer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({"status": "Item successfuly updated"})
+        else:
+            return Response({"status": "Wrong data provided"})
 
 # Create your views here.
 def main_view():
