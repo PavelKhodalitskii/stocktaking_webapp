@@ -12,6 +12,3 @@ db.sqlite3
 
 cert.crt
 cert.key
-
-/media/qr_codes/*
-!/media/qr_codes/
