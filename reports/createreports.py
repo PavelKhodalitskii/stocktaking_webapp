@@ -1,9 +1,14 @@
 import pandas as pd
 from openpyxl import Workbook
 from items_management.models import InventoryItems
+from reports.models import StocktalkingReport
+
+
 def create_report():
     try:
-        items = InventoryItems.objects.all()
+        report_id = 1
+        report = StocktalkingReport.objects.get(id=report_id)
+        items = report.items.all()
 
         data = []
         data.append({
