@@ -1,10 +1,20 @@
+from django.shortcuts import render
+from django.http import HttpResponse
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import IsAdminUser
 
 from reports.models import StocktalkingReport, RelationItemsReports
 from .serizalizers import StocktalkingListSerizalizer, RelationItemsReportsSerizalizer
+from .createreports import create_report
 from items_management.permissions import IsOwner
+
+def report_view(request):
+    try:
+        create_report()
+        return HttpResponse("Report created")
+    except:
+        return HttpResponse("Something went wrong")
 
 class StocktalkingListAPIView(APIView):
     permission_classes = (IsAdminUser, IsOwner)
