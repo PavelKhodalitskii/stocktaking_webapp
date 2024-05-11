@@ -37,8 +37,11 @@ class Ivent(models.Model):
 
     def __str__(self):
         return "Инвентаризация " + str(self.pk)
+    
+    # Написать метод save()
 
 
+#Написать сериализаторы
 class RelationItemsReports(models.Model):
     class Meta:
         verbose_name = 'Отношение: Предметы-Отчёты'
@@ -46,8 +49,8 @@ class RelationItemsReports(models.Model):
 
     item = models.ForeignKey(InventoryItems, null=True, on_delete=models.SET_NULL, verbose_name="Предмет")
     report = models.ForeignKey(StocktalkingReport, null=True, on_delete=models.SET_NULL, verbose_name="Отчет")
-    datatime = models.DateTimeField()
+    datatime = models.DateTimeField(null=True, blank=True)
     assessed_value = models.FloatField(default=0.00, verbose_name="Оценочная стоимость")
     assessed_amount = models.IntegerField(default=0, verbose_name="Оценочное кол-во")
-    status = models.ForeignKey(Status, null=True, on_delete=models.SET_NULL, verbose_name="Статус")
-    note = models.TextField(null=True, verbose_name="Примечание")
+    status = models.ForeignKey(Status, null=True, blank=True, on_delete=models.SET_NULL, verbose_name="Статус")
+    note = models.TextField(null=True, blank=True, verbose_name="Примечание")
