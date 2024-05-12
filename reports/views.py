@@ -31,12 +31,10 @@ class StocktalkingListAPIView(APIView):
 class ReportItemsApiView(APIView):
     permission_classes = (IsAdminUser, IsOwner)
     serializer_class = RelationItemsReportsSerizalizer
-    post_fields_required = ['datatime', 'item', 'report']
-    put_fields_forbidden = ['id', 'item', 'report']
+    post_fields_required = ['item', 'report']
+    put_fields_forbidden = ['approve', 'id', 'item', 'report']
 
     def validate_post_data(self, data):
-        self.post_fields_required = ['datatime', 'item', 'report']
-
         for field in self.post_fields_required:
             if not field in data.keys():
                 return False
@@ -44,8 +42,6 @@ class ReportItemsApiView(APIView):
         return True
     
     def validate_put_data(self, data):
-        self.put_fields_forbidden = ['id', 'item', 'report']
-
         for field in self.put_fields_forbidden:
             if not field in data.keys():
                 return False
@@ -79,3 +75,33 @@ class ReportItemsApiView(APIView):
                     return Response({"status": "Wrong data provided"})
             return Response({"status": "No object with such id"})
         return Response({"status": f"Forbidden fields change. Note: it's forbidden to change fields: {self.put_fields_forbidden}"})
+
+class ApproveItemByQR(APIView):
+    permission_classes = (IsAdminUser, IsOwner)
+    put_fields_forbidden = ['id', 'item', 'report', 'status', 'note']
+    put_fields_required = ['approve', 'datatime']
+
+    def approve_data(self, data):
+        for field in self.put_fields_required:
+            if field not in data.keys():
+                return False
+        
+        for field in self.put_fields_forbidden:
+            if field in data.keys():
+                return False
+        return True
+
+    def put(self, request, item_id):
+        try:
+            object = RelationItemsReports.objects.get(id=item_id)
+            if self.approve_data(request.data):
+                if object:
+                    serializer = RelationItemsReportsSerizalizer(object, data=request.data)
+                    if serializer.is_valid():
+                        serializer.save()
+                        return Response({"status": "Item successfuly updated"})
+                    else:
+                        return Response({"status": "Wrong data provided"})
+            return Response({"status": "Forbidden fields change or lack of required. Note: it's forbidden to change fields excluding 'approve' and 'datetime'"})
+        except:
+            return Response({"status": "No object with such id"})
