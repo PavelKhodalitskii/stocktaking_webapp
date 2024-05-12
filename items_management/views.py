@@ -1,13 +1,16 @@
 from typing import Any
+
 from rest_framework import generics
-from django.shortcuts import render
-from django.http import HttpResponse
+
 from django.views.generic import ListView, DetailView
 from django.contrib.auth.mixins import LoginRequiredMixin
 
 from .models import InventoryItems, ItemType
 from account.models import CustomUser, Office
+
 from .serizalizers import InventoryItemsSerializer
+from .permissions import IsOwner
+
 
 class ItemsListView(LoginRequiredMixin, ListView):
     model = InventoryItems
@@ -85,8 +88,3 @@ class ItemDetailView(DetailView):
 class InvenoryItemsAPIView(generics.ListAPIView):
     queryset = InventoryItems.objects.all()
     serializer_class = InventoryItemsSerializer
-    pass
-
-# Create your views here.
-def main_view():
-    return HttpResponse()
