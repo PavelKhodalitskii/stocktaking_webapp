@@ -55,7 +55,7 @@ def create_offices(amount):
 def create_place_holder_items(amount, offices_amount):
     for i in range(amount):
         try:
-            InventoryItems.objects.get(pk=i)
+            InventoryItems.objects.get(id=i)
         except:
             new_item = InventoryItems(id=i, 
                                     item_number=i, 

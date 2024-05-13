@@ -32,7 +32,7 @@ class ReportItemsApiView(APIView):
     permission_classes = (IsAdminUser, IsOwner)
     serializer_class = RelationItemsReportsSerizalizer
     post_fields_required = ['item', 'report']
-    put_fields_forbidden = ['approve', 'id', 'item', 'report']
+    put_fields_forbidden = ['id', 'item', 'report']
 
     def validate_post_data(self, data):
         for field in self.post_fields_required:

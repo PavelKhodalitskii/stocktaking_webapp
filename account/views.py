@@ -4,9 +4,13 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth import views as auth_views
 from django.urls import reverse_lazy
 
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework.permissions import IsAuthenticated
 
 from .forms import LoginForm
-from .models import OfficeBuilding
+from .models import OfficeBuilding, Office
+from .serializers import OfficeSerializer
 
 
 class LoginUser(auth_views.LoginView):
@@ -38,3 +42,11 @@ def user_login(request):
     else:
         form = LoginForm()
     return render(request, 'login.html', {'form': form})
+
+class OfficeListApiView(APIView):
+    permission_classes = (IsAuthenticated,)
+
+    def get(self, request, office_building_id):
+        offices = Office.objects.all().filter(office_building=office_building_id)
+        return Response({'offices': OfficeSerializer(offices, many=True).data})
+
