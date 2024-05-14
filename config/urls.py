@@ -16,18 +16,27 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.shortcuts import redirect
+from django.conf.urls.static import static
 from django.urls import path, include
+from django.conf import settings
 
 from .utils import debug_prepare
+from account.models import OfficeBuilding
+
 
 def root_redirect(request):
     debug_prepare()
+    if request.user.is_authenticated:
+        return redirect('items_list', OfficeBuilding.objects.get(id=1).slug)
     return redirect('site_login')
 
 urlpatterns = [
-    path('', root_redirect),
     path('admin/', admin.site.urls),
     path('inventory_items/', include('items_management.urls'), name='api'),
     path('account/', include('account.urls'), name='account'),
-    path('reports/', include('reports.urls'), name='reports')
+    path('reports/', include('reports.urls'), name='reports'),
+    path('', root_redirect)
 ]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

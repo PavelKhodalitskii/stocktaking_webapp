@@ -96,5 +96,3 @@ def create_report(report_id = 1):
 
     except Exception as e:
         print("Ошибка при создании отчета:", e)
-
-create_report(1)

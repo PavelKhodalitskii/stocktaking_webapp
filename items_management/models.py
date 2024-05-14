@@ -3,6 +3,7 @@ from django.urls import reverse
 from django.utils import timezone
 
 from account.models import CustomUser, Office
+from .utils import generate_qr_code
 
 # Create your models here.
 
@@ -28,6 +29,14 @@ class InventoryItems(models.Model):
     assessed_amount = models.IntegerField(null=False, default=0, verbose_name="Оценочное количество")
     status = models.ForeignKey('Status', related_name="inventory_items", verbose_name="Статус", null=True, blank=True, on_delete=models.SET_NULL)
     valid_from = models.DateTimeField(verbose_name="Действительно с", default=timezone.now)
+    qr_file_path = models.CharField(default="", blank=True)
+
+    def save(self, *args, **kwargs):
+        self.qr_file_path = generate_qr_code(self)
+        super().save(*args, **kwargs)
+
+    def get_qr_code(self):
+        return self.qr_file_path
 
     def __str__(self):
         return str(self.name) + str(self.item_number)

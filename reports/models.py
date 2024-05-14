@@ -5,7 +5,6 @@ from django.urls import reverse
 from items_management.models import InventoryItems, ItemType, Status
 from account.models import CustomUser, OfficeBuilding
 
-
 class StocktalkingReport(models.Model):
     class Meta:
         verbose_name = 'Отчёт'
@@ -54,3 +53,4 @@ class RelationItemsReports(models.Model):
     assessed_amount = models.IntegerField(default=0, verbose_name="Оценочное кол-во")
     status = models.ForeignKey(Status, null=True, blank=True, on_delete=models.SET_NULL, verbose_name="Статус")
     note = models.TextField(null=True, blank=True, verbose_name="Примечание")
+    approve = models.BooleanField(default=False, verbose_name="Подтверждено")
