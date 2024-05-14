@@ -5,7 +5,7 @@ from django.urls import reverse
 # Генерирует QR-code для InvetoryItem
 def generate_qr_code(obj):
     filename = obj.name + str(obj.id)
-    url = "https://" + 'localhost:8000' + reverse("approve_item", kwargs={'item_id': obj.id})
+    url = "https://" + 'localhost:8000' + reverse("report_item", kwargs={'item_id': obj.id})
     print(url)
     file_path = MEDIA_ROOT + "/qr_codes/" + filename + '.png'
     image_path = "/media/qr_codes/" + filename + '.png'

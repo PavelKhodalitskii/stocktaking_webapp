@@ -5,6 +5,6 @@ from .views import StocktalkingListAPIView, ReportItemsApiView, ApproveItemByQR,
 urlpatterns = [
     path('report/', report_view, name='report'),
     path('api/v1/stocktalking_list/', StocktalkingListAPIView.as_view()),
-    path('api/v1/report_items/<int:item_id>', ReportItemsApiView.as_view()),
+    path('api/v1/report_items/<int:item_id>', ReportItemsApiView.as_view(), name='report_item'),
     # path('api/v1/approve_item/<int:item_id>', ApproveItemByQR.as_view(), name="approve_item")
 ]
