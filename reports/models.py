@@ -14,7 +14,6 @@ class StocktalkingReport(models.Model):
     ivent = models.ForeignKey('Ivent', related_name='report', null=True, on_delete=models.SET_NULL, verbose_name="Ивент инвенатризации")
     type = models.ForeignKey(ItemType, related_name='report', null=True, on_delete=models.SET_NULL, verbose_name="Тип")
     items = models.ManyToManyField(InventoryItems, through='RelationItemsReports', related_name='reports', verbose_name="Предметы")
-    slug = models.SlugField(max_length=255, unique=True, verbose_name="URL лицензии")
     note = models.CharField(max_length=255, verbose_name="Примечание")
 
     def __str__(self):

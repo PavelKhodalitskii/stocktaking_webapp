@@ -1,8 +1,22 @@
 {% extends 'items_management/base.html' %}
+{% load static %}
+
 
 {% block content %}
     {% if request.user.stocktalking_responsible %}
         <h1>Мой список инвентаризации:</h1>
-        <a href="{% url 'create_report' %}">Создать отчет</a>
+        <a href="{% url 'create_report' %}">Создать отчет .xlsx</a>
+        <button onclick="changeOrder(sort_name='scan_time', value_1='ascending', value_2='descending', default_value='descending')">Время сканирования</button>
+        {% for item in items %}
+            <div class="item">
+                <h3><a href="{{ item.get_absolute_url }}">{{ item.item.name }}</a>, {{item.item.item_number}}</h3>
+                <p>Статус: {{ item.status }}</p>            
+                <a>Финансово ответсвенное лицо: {{item.item.financially_responsible_person}}</a>
+                <p>Подвтверждено: {{ item.approve }}</p>
+                <p>Вермя сканирования: {{ item.datatime }}</p>
+            </div>
+        {% endfor %}
     {% endif %}
+    <script src="{% static 'js/changeOrder.js' %}">
+    </script>
 {% endblock %}
