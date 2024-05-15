@@ -2,7 +2,7 @@ from django.urls import path, include, re_path
 from django.contrib.auth.views import LogoutView
 
 # from .views import 
-from .views import user_login, logout_user, LoginUser, OfficeListApiView
+from .views import user_login, logout_user, LoginUser, OfficeListApiView, UserRetriveAPIView
 
 urlpatterns = [
     # path('login/', user_login, name='login'),
@@ -10,6 +10,7 @@ urlpatterns = [
     path('logout/', logout_user, name='site_logout'),
     # path('api/v1/auth/', include('djoser.urls')),
     path('auth/', include('djoser.urls.authtoken')),
-    path('api/v1/offices/<int:office_building_id>', OfficeListApiView.as_view())
+    path('api/v1/offices/<int:office_building_id>', OfficeListApiView.as_view()),
+    path('api/v1/user/<int:user_id>', UserRetriveAPIView.as_view())
 ]
 

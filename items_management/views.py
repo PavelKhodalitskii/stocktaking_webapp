@@ -1,6 +1,9 @@
 from typing import Any
 
 from rest_framework import generics
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework.permissions import IsAdminUser
 
 from django.views.generic import ListView, DetailView
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -88,3 +91,10 @@ class ItemDetailView(DetailView):
 class InvenoryItemsAPIView(generics.ListAPIView):
     queryset = InventoryItems.objects.all()
     serializer_class = InventoryItemsSerializer
+
+class InventoryItemRetriveAPIView(APIView):
+    permission_classes = (IsAdminUser, IsOwner)
+
+    def get(self, request, item_id):
+        item = InventoryItems.objects.get(id=item_id)
+        return Response({f"item {item_id}": InventoryItemsSerializer(item).data})

@@ -6,12 +6,12 @@ from django.urls import reverse_lazy
 
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, IsAdminUser
 
 from .forms import LoginForm
-from .models import OfficeBuilding, Office
-from .serializers import OfficeSerializer
-
+from .models import OfficeBuilding, Office, CustomUser
+from .serializers import OfficeSerializer, CustomUserSerializer
+from items_management.permissions import IsOwner
 
 class LoginUser(auth_views.LoginView):
     form_class = LoginForm
@@ -50,3 +50,9 @@ class OfficeListApiView(APIView):
         offices = Office.objects.all().filter(office_building=office_building_id)
         return Response({'offices': OfficeSerializer(offices, many=True).data})
 
+class UserRetriveAPIView(APIView):
+    permission_classes = (IsAdminUser, IsOwner)
+
+    def get(self, request, user_id):
+        user = CustomUser.objects.get(id=user_id)
+        return Response({f"user {user_id}": CustomUserSerializer(user).data})
