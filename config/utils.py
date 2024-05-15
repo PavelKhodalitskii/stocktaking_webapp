@@ -10,7 +10,7 @@ def debug_prepare():
     try: 
         superuser = CustomUser.objects.get(username="admin")
     except:
-        superuser = CustomUser(username="admin", first_name="Админ", last_name="Админов", is_staff=True, is_superuser=True, is_active=True)
+        superuser = CustomUser(username="admin", first_name="Админ", last_name="Админов", is_staff=True, is_superuser=True, is_active=True, is_admin=True, stocktalking_responsible=True)
         superuser.set_password("admin")
         superuser.save()
 

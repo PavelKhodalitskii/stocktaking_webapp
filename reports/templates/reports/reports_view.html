@@ -1,0 +1,8 @@
+{% extends 'items_management/base.html' %}
+
+{% block content %}
+    {% if request.user.stocktalking_responsible %}
+        <h1>Мой список инвентаризации:</h1>
+        <a href="{% url 'create_report' %}">Создать отчет</a>
+    {% endif %}
+{% endblock %}

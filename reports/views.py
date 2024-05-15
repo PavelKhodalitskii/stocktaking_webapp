@@ -1,5 +1,8 @@
+from typing import Any
 from django.shortcuts import render
 from django.http import HttpResponse
+from django.views.generic import TemplateView
+
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import IsAdminUser
@@ -15,6 +18,17 @@ def report_view(request):
         return HttpResponse("Report created")
     except:
         return HttpResponse("Something went wrong")
+
+class ReportsView(TemplateView):
+    template_name = "reports/reports_view.html"
+
+    def get_context_data(self, **kwargs: Any) -> dict[str, Any]:
+        context = super().get_context_data(**kwargs)
+        context['title'] = "Объекты инвентаризации"
+
+        office_building_slug = self.kwargs['officebuilding_slug']
+        context['office_building_slug'] = office_building_slug
+        return context
 
 class StocktalkingListAPIView(APIView):
     permission_classes = (IsAdminUser, IsOwner)
