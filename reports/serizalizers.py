@@ -12,7 +12,7 @@ class StocktalkingListSerizalizer(serializers.ModelSerializer):
 
     class Meta:
         model = StocktalkingReport
-        fields = ('id', 'author', 'ivent', 'type', 'items', 'slug', 'note')
+        fields = ('id', 'author', 'ivent', 'type', 'items', 'note')
 
 
     def get_author(self, obj):
