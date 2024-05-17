@@ -1,5 +1,6 @@
 from rest_framework import serializers
 
+from items_management.models import InventoryItems
 from reports.models import StocktalkingReport, RelationItemsReports
 from account.models import CustomUser
 from account.serializers import CustomUserSerializer
@@ -23,6 +24,14 @@ class StocktalkingListSerizalizer(serializers.ModelSerializer):
         return InventoryItemsSerializer(items, many=True).data
 
 class RelationItemsReportsSerizalizer(serializers.ModelSerializer):
+    item = serializers.SerializerMethodField('get_item')
+    
+
     class Meta:
         model = RelationItemsReports
         fields = "__all__"
+
+    def get_item(self, obj):
+        if obj.item:
+            item = InventoryItems.objects.get(id=obj.item.id)
+            return InventoryItemsSerializer(item).data

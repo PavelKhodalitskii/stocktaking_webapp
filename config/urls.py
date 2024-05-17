@@ -35,7 +35,7 @@ urlpatterns = [
     path('inventory_items/', include('items_management.urls'), name='api'),
     path('account/', include('account.urls'), name='account'),
     path('reports/', include('reports.urls'), name='reports'),
-    path('', root_redirect)
+    path('', root_redirect),
 ]
 
 if settings.DEBUG:

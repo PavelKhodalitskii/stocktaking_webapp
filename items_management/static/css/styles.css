@@ -108,3 +108,57 @@ a {
   margin: 40px;
 }
 
+table, th, td {
+  border-collapse: collapse;
+}
+
+.sort_image {
+  height: 15px;
+  width: 15px;
+}
+
+.sort_image:hover {
+  rotate: 180deg;
+}
+
+.table_wrapper {
+  margin: 0, auto;
+  width: 100%;
+}
+
+.items_table {
+  margin: 0, auto;
+  width: 100%;
+  border-radius: 10px;
+  padding: 10px;
+  background: #EDEDED;
+}
+
+tr {
+  height: 40px;
+}
+
+th {
+  font-family: 'Geologica';
+  font-weight: 400;
+  font-size: 12pt;
+  color: white;
+  text-align: left;
+  background: #767676;
+}
+
+.table_row_wrapper {
+  font-family: 'Geologica';
+  font-weight: 200;
+  font-size: 12pt;
+  color: black;
+  text-align: left;
+}
+
+td {
+  font-family: 'Geologica';
+  font-weight: 200;
+  font-size: 12pt;
+  color: black;
+  text-align: left;
+}
