@@ -162,3 +162,7 @@ REST_FRAMEWORK = {
       'rest_framework.permissions.IsAuthenticated',
     ]
 }
+
+# STOCKTALKING_RESPONSIBLE_ROLE_NAME = 'Ответсвенный за инвентаризацию'
+# SUPERADMIN_ROLE_NAME = 'Супер-админ'
+# ADMIN_ROLE_NAME = 'Админ'

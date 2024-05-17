@@ -10,7 +10,7 @@ def debug_prepare():
     try: 
         superuser = CustomUser.objects.get(username="admin")
     except:
-        superuser = CustomUser(username="admin", first_name="Админ", last_name="Админов", is_staff=True, is_superuser=True, is_active=True)
+        superuser = CustomUser(username="admin", first_name="Админ", last_name="Админов", is_staff=True, is_superuser=True, is_active=True, is_admin=True, stocktalking_responsible=True)
         superuser.set_password("admin")
         superuser.save()
 
@@ -54,16 +54,13 @@ def create_offices(amount):
 
 def create_place_holder_items(amount, offices_amount):
     for i in range(amount):
-        try:
-            InventoryItems.objects.get(id=i)
-        except:
-            new_item = InventoryItems(id=i, 
-                                    item_number=i, 
-                                    slug=f"placeholder_{i}", 
-                                    name="Placeholder",
-                                    office=Office.objects.get(id=random.randint(1, offices_amount)),
-                                    type=ItemType.objects.get(pk=1),
-                                    financially_responsible_person=CustomUser.objects.get(pk=1),
-                                    status=Status.objects.get(pk=1)
-                                    )
-            new_item.save()
+        new_item = InventoryItems(id=i, 
+                                item_number=i, 
+                                slug=f"placeholder_{i}", 
+                                name="Placeholder",
+                                office=Office.objects.get(id=random.randint(1, offices_amount)),
+                                type=ItemType.objects.get(pk=1),
+                                financially_responsible_person=CustomUser.objects.get(pk=1),
+                                status=Status.objects.get(pk=1)
+                                )
+        new_item.save()

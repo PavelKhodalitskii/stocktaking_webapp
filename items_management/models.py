@@ -32,8 +32,8 @@ class InventoryItems(models.Model):
     qr_file_path = models.CharField(default="", blank=True)
 
     def save(self, *args, **kwargs):
-        self.qr_file_path = generate_qr_code(self)
         super().save(*args, **kwargs)
+        self.qr_file_path = generate_qr_code(self)
 
     def get_qr_code(self):
         return self.qr_file_path

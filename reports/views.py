@@ -1,13 +1,16 @@
-from django.shortcuts import render
+from typing import Any
 from django.http import HttpResponse
+from django.views.generic import TemplateView
+
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import IsAdminUser
 
-from reports.models import StocktalkingReport, RelationItemsReports
+from .models import StocktalkingReport, RelationItemsReports, Ivent
 from .serizalizers import StocktalkingListSerizalizer, RelationItemsReportsSerizalizer
 from .createreports import create_report
 from items_management.permissions import IsOwner
+from account.models import OfficeBuilding
 
 def report_view(request):
     try:
@@ -15,6 +18,46 @@ def report_view(request):
         return HttpResponse("Report created")
     except:
         return HttpResponse("Something went wrong")
+
+class ReportsView(TemplateView):
+    template_name = "reports/reports_view.html"
+
+    def get_report_items(self):
+        user = self.request.user
+        try:
+            report = StocktalkingReport.objects.get(author__id = user.id)
+            items = RelationItemsReports.objects.all().filter(report__id = report.id)
+        except:
+            items = RelationItemsReports.objects.none()
+
+        valid_from_sort = self.request.GET.get('scan_time')
+        if valid_from_sort == 'ascending':
+            items = items.order_by('-datatime')
+        elif valid_from_sort == 'descending':
+            items = items.order_by('datatime')
+
+        return items
+    
+    def get_reports(self):
+        office_building_slug = self.kwargs['officebuilding_slug']
+        try:
+            reports = StocktalkingReport.objects.all().filter(author__office_building=OfficeBuilding.objects.get(slug=office_building_slug))
+        except:
+            reports = StocktalkingReport.objects.none()
+        return reports
+
+
+    def get_context_data(self, **kwargs: Any) -> dict[str, Any]:
+        context = super().get_context_data(**kwargs)
+        context['title'] = "Отчеты"
+
+        office_building_slug = self.kwargs['officebuilding_slug']
+        context['office_building_slug'] = office_building_slug
+    
+        context['items'] = self.get_report_items()
+        context['reports'] = self.get_reports()
+        context['ivent'] = Ivent.objects.last()
+        return context
 
 class StocktalkingListAPIView(APIView):
     permission_classes = (IsAdminUser, IsOwner)
