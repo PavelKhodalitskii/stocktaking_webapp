@@ -47,8 +47,7 @@ def create_offices(amount):
         try:
             Office.objects.get(id=i)
         except:
-            office = Office( 
-                            name=f"Помещение {i}", 
+            office = Office(name=f"Помещение {i}", 
                             office_building=OfficeBuilding.objects.get(pk=1))
             office.save()
 

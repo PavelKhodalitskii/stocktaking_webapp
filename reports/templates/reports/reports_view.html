@@ -4,30 +4,100 @@
 
 
 {% block content %}
-    {% if request.user.stocktalking_responsible %}
-        <h1>Мой список инвентаризации:</h1>
-        <a href="{% url 'create_report' %}" download="items_report.xlsx">Создать отчет .xlsx</a>
-        <button onclick="changeOrder(sort_name='scan_time', value_1='ascending', value_2='descending', default_value='descending')">Время сканирования</button>
-        {% for item in items %}
-            <div class="item">
-                <h3><a href="{{ item.get_absolute_url }}">{{ item.item.name }}</a>, {{item.item.item_number}}</h3>
-                <p>Статус: {{ item.status }}</p>            
-                <a>Финансово ответсвенное лицо: {{item.item.financially_responsible_person}}</a>
-                <p>Подвтверждено: {{ item.approve }}</p>
-                <p>Вермя сканирования: {{ item.datatime }}</p>
+    <div class="contet_wrapper">
+        {% if request.user.stocktalking_responsible %}
+            <h1>Мой список инвентаризации:</h1>
+            <div class="table_control_menu">
+                <button onclick="clearSorts()">Сбросить сортировки</button>
+                <a href="{% url 'create_report' %}" download="items_report.xlsx">Создать отчет .xlsx</a>
             </div>
-        {% endfor %}
-    {% endif %}
-    {% if request.user.is_admin %}
-        <h1>Списов отчетов в этом офисе: </h1>
-        <h3>Инвент инвентаризации: {{ivent}}</h3>
-        {% for report in reports %}
-            <div class="report">
-                <h3>{{ report.type }}</h3>
-                <p>{{ report.author.first_name }}, {{ report.author.last_name }}</p>
+            <div class="table_wrapper">
+                <table class="items_table">
+                    <thead>
+                        <tr>
+                            <th style="border-top-left-radius: 10px; padding-left: 10px;">ID</th>
+                            <th>Предмет</th>
+                            <th>Отчет</th>
+                            <th>
+                                <form class="filter" action="{% url 'reports' office_building_slug %}" method="GET">
+                                    <select name="status" onchange="this.form.submit()">
+                                        <option value="">Статус</option>
+                                        {% for status in statuses %}
+                                            <option value="{{ status.id }}" {% if request.GET.status == user.id %} selected {% endif %}>{{ user.name }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </form>
+                            </th>
+                            <th>
+                                <form class="filter" action="{% url 'reports' office_building_slug %}" method="GET">
+                                    <select name="approved" onchange="this.form.submit()">
+                                        <option value="">Подтверждено</option>
+                                        <option value="True">Да</option>
+                                        <option value="False">Нет</option>
+                                    </select>
+                                </form>
+                            </th>
+                            <th>
+                                <form class="filter" action="{% url 'reports' office_building_slug %}" method="GET">
+                                    <select name="responsible_person" onchange="this.form.submit()">
+                                        <option value="">Материально Ответственное Лицо</option>
+                                        {% for user in users %}
+                                            <option value="{{ user.id }}" {% if request.GET.responsible_person == user.id %} selected {% endif %}>{{ user.first_name }} {{ user.last_name }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </form>
+                            </th>
+                            <th>Примечание</th>
+                            <th style="border-top-right-radius: 10px;">Отсканировано<img src="{% static 'images/utils/triangle-sort.png' %}" class="sort_image" onclick="changeOrder(sort_name='scan_time', value_1='ascending', value_2='descending', default_value='descending')"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in items %}
+                            <tr {% if forloop.counter|divisibleby:2 %}style="background-color: #D9D9D9"{% endif %}>
+                                <td style="padding-left: 10px;">{{ item.id }}</td>
+                                <td><a class="table_row_wrapper" href="{{ item.item.get_absolute_url }}">{{ item.item.name }}, {{item.item.item_number}}</a></td>
+                                <td>{{ item.report }}</td>
+                                <td>{{ item.status }}</td>
+                                <td>{{ item.approve }}</td>
+                                <td>{{ item.item.financially_responsible_person.first_name }} {{ item.item.financially_responsible_person.last_name }}</td>
+                                <td>{{ item.note }}</td>
+                                <td>{{ item.last_scan_datetime }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
             </div>
-        {% endfor %}
-    {% endif %}
+        {% endif %}
+
+        {% if request.user.is_admin %}
+            <h1>Списов отчетов в этом офисе: </h1>
+            <h3>Инвент инвентаризации: {{ivent}}</h3>
+            <div class="table_wrapper">
+                <table class="items_table">
+                    <thead>
+                        <tr>
+                            <th style="border-top-left-radius: 10px; padding-left: 10px;">ID</th>
+                            <th>Автор отчёта</th>
+                            <th>Тип отчёта</th>
+                            <th>Примечение</th>
+                            <th style="border-top-right-radius: 10px;">Отчет сдан:</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for report in reports %}
+                            <div class="report">
+                                <td style="padding-left: 10px;">{{ report.id }}</td>
+                                <td>{{ report.author.first_name }} {{ report.author.last_name }}</td>
+                                <td>{{ report.type }}</td>
+                                <td>{{ report.note }}</td>
+                                <td>{{ report.finish_datetime }}</td>
+                            </div>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% endif %}
+    </div>
     {% if request.user.is_superuser %}
     {% endif %}
     <script src="{% static 'js/changeOrder.js' %}">

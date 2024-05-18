@@ -10,7 +10,8 @@ from .models import StocktalkingReport, RelationItemsReports, Ivent
 from .serizalizers import StocktalkingListSerizalizer, RelationItemsReportsSerizalizer
 from .createreports import create_report
 from items_management.permissions import IsOwner
-from account.models import OfficeBuilding
+from items_management.models import Status
+from account.models import OfficeBuilding, CustomUser
 
 def report_view(request):
     try:
@@ -30,11 +31,26 @@ class ReportsView(TemplateView):
         except:
             items = RelationItemsReports.objects.none()
 
+        status_id = self.request.GET.get('status')
+        if status_id:
+            items = items.filter(status__id = status_id)
+
+        responsible_person_id = self.request.GET.get('responsible_person')
+        if responsible_person_id:
+            items = items.filter(item__financially_responsible_person__id=responsible_person_id)
+
+        approved_filter = self.request.GET.get('approved')
+        if approved_filter:
+            if approved_filter == "True":
+                items = items.filter(approve=True)
+            elif approved_filter == "False":
+                items = items.filter(approve=False)
+
         valid_from_sort = self.request.GET.get('scan_time')
         if valid_from_sort == 'ascending':
-            items = items.order_by('-datatime')
+            items = items.order_by('-last_scan_datetime')
         elif valid_from_sort == 'descending':
-            items = items.order_by('datatime')
+            items = items.order_by('last_scan_datetime')
 
         return items
     
@@ -53,7 +69,9 @@ class ReportsView(TemplateView):
 
         office_building_slug = self.kwargs['officebuilding_slug']
         context['office_building_slug'] = office_building_slug
-    
+
+        context['statuses'] = Status.objects.all()
+        context['users'] = CustomUser.objects.all().filter(office_building__slug = office_building_slug)
         context['items'] = self.get_report_items()
         context['reports'] = self.get_reports()
         context['ivent'] = Ivent.objects.last()

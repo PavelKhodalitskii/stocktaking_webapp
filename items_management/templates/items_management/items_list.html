@@ -53,19 +53,17 @@
                 <tbody>
                     {% for item in items %}
                         <tr {% if forloop.counter|divisibleby:2 %}style="background-color: #D9D9D9"{% endif %}>
-                            <a class="table_row_wrapper" href="{{ item.get_absolute_url }}">
-                                <td style="padding-left: 10px;"><a class="table_row_wrapper" href="{{ item.get_absolute_url }}">{{ item.id }}</a></td>
-                                <td><a class="table_row_wrapper" href="{{ item.get_absolute_url }}">{{ item.item_number }}</a></td>
-                                <td><a class="table_row_wrapper" href="{{ item.get_absolute_url }}">{{ item.name }}</a></td>
-                                <td><a class="table_row_wrapper" href="{{ item.get_absolute_url }}">{{ item.type }}</a></td>
-                                <td><a class="table_row_wrapper" href="{{ item.get_absolute_url }}">{{ item.amount }}</a></td> 
-                                <td><a class="table_row_wrapper" href="{{ item.get_absolute_url }}">{{ item.value }}</a></td>
-                                <td><a class="table_row_wrapper" href="{{ item.get_absolute_url }}">{{ item.assessed_amount }}</a></td>
-                                <td><a class="table_row_wrapper" href="{{ item.get_absolute_url }}">{{ item.assessed_value }}</a></td>
-                                <td><a class="table_row_wrapper" href="{{ item.get_absolute_url }}">{{ item.office }}</a></td>
-                                <td><a class="table_row_wrapper" href="{{ item.get_absolute_url }}">{{ item.financially_responsible_person.first_name }} {{ item.financially_responsible_person.last_name }}</td>
-                                <td><a class="table_row_wrapper" href="{{ item.get_absolute_url }}">{{ item.valid_from }}</a></td>
-                            </a>
+                            <td style="padding-left: 10px;"><a class="table_row_wrapper" href="{{ item.get_absolute_url }}">{{ item.id }}</a></td>
+                            <td><a class="table_row_wrapper" href="{{ item.get_absolute_url }}">{{ item.item_number }}</a></td>
+                            <td><a class="table_row_wrapper" href="{{ item.get_absolute_url }}">{{ item.name }}</a></td>
+                            <td><a class="table_row_wrapper" href="{{ item.get_absolute_url }}">{{ item.type }}</a></td>
+                            <td><a class="table_row_wrapper" href="{{ item.get_absolute_url }}">{{ item.amount }}</a></td> 
+                            <td><a class="table_row_wrapper" href="{{ item.get_absolute_url }}">{{ item.value }}</a></td>
+                            <td><a class="table_row_wrapper" href="{{ item.get_absolute_url }}">{{ item.assessed_amount }}</a></td>
+                            <td><a class="table_row_wrapper" href="{{ item.get_absolute_url }}">{{ item.assessed_value }}</a></td>
+                            <td><a class="table_row_wrapper" href="{{ item.get_absolute_url }}">{{ item.office }}</a></td>
+                            <td><a class="table_row_wrapper" href="{{ item.get_absolute_url }}">{{ item.financially_responsible_person.first_name }} {{ item.financially_responsible_person.last_name }}</td>
+                            <td><a class="table_row_wrapper" href="{{ item.get_absolute_url }}">{{ item.valid_from }}</a></td>
                         </tr>
                     {% endfor %}
                 </tbody>
