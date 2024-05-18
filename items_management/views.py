@@ -32,7 +32,7 @@ class ItemsListView(LoginRequiredMixin, ListView):
     def get_queryset(self) -> generics.QuerySet[Any]:
         office_building_slug = self.kwargs['officebuilding_slug']
         queryset = super().get_queryset()
-        queryset.order_by('valid_from')
+        queryset = queryset.order_by('-valid_from')
         queryset = queryset.filter(office__office_building__slug=office_building_slug)
 
         office_id = self.request.GET.get('office')

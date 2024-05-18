@@ -108,6 +108,17 @@ a {
   margin: 40px;
 }
 
+.contet_wrapper {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.table_wrapper {
+  margin-top: 40px;
+  width: 100%;
+}
+
 table, th, td {
   border-collapse: collapse;
 }
@@ -119,11 +130,6 @@ table, th, td {
 
 .sort_image:hover {
   rotate: 180deg;
-}
-
-.table_wrapper {
-  margin: 0, auto;
-  width: 100%;
 }
 
 .items_table {
