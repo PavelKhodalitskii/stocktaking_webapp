@@ -1,6 +1,7 @@
 from typing import Any
 from django.http import HttpResponse
 from django.views.generic import TemplateView
+from django.shortcuts import render
 
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -16,9 +17,9 @@ from account.models import OfficeBuilding, CustomUser
 def report_view(request):
     try:
         create_report()
-        return HttpResponse("Report created")
+        return render(request, 'reports/report_create_view.html')
     except:
-        return HttpResponse("Something went wrong")
+        return HttpResponse("Something went wrong")  
 
 class ReportsView(TemplateView):
     template_name = "reports/reports_view.html"

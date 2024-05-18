@@ -63,7 +63,7 @@ def create_report(report_id = 1):
         
         row_idx = 5
         for counter, item in enumerate(items, start=1):
-            latest_relation = item.relationitemsreports_set.all().latest('datatime') if item.relationitemsreports_set.exists() else None
+            latest_relation = item.relationitemsreports_set.all().latest('last_scan_datetime') if item.relationitemsreports_set.exists() else None
             assessed_amount = latest_relation.assessed_amount if latest_relation else None
 
             row_data = [
@@ -89,7 +89,7 @@ def create_report(report_id = 1):
             row_idx += 1
 
         
-        file_path = "./reports/items_report.xlsx"
+        file_path = "./items_management/static/reports/items_report.xlsx"
         wb.save(file_path)
 
         print("Excel файл успешно сохранен:", file_path)
