@@ -6,7 +6,7 @@ from django.views.generic import ListView, DetailView
 from django.contrib.auth.mixins import LoginRequiredMixin
 
 from .models import InventoryItems, ItemType
-from account.models import CustomUser, Office
+from account.models import CustomUser, Office, OfficeBuilding
 
 from .serizalizers import InventoryItemsSerializer
 from .permissions import IsOwner
@@ -26,6 +26,7 @@ class ItemsListView(LoginRequiredMixin, ListView):
         context['offices'] = Office.objects.all().filter(office_building__slug=office_building_slug)
         context['types'] = ItemType.objects.all()
         context['users'] = CustomUser.objects.all().filter(office_building__slug=office_building_slug)
+        context['office_buildings'] = OfficeBuilding.objects.all()
         context['office_building_slug'] = office_building_slug
         return context
 

@@ -20,9 +20,11 @@
     <header class="header">
         <div class="navigation_bar">
             <ul class="naviagation_list">
-                <li class="header_item">
-                    <div class="menu-btn" onclick="toggleMenu()">&#9776;</div>
-                </li>
+                {% if request.user.is_superuser %}
+                    <li class="header_item">
+                        <div id="menu_button" class="menu_button" onclick="toggleMenu()">&#9776;</div>
+                    </li>
+                {% endif %}
                 <li class="header_item">
                     <a href="{% url 'items_list' office_building_slug %}" class="header_link">Обьекты учета</a>
                 </li>
@@ -46,13 +48,27 @@
     </header>
     <div class="underline"></div>
     
+    <!--боковое меню-->
+    <div id="office_menu" class="office_menu">
+        <div class="office_menu_head">
+            <h2>Офисы</h2>
+            <button class="close_button" id="close_button">&#10006;</button>
+        </div>
+        <div class="offices_wrapper">
+            {% for office_building in office_buildings %}
+                <a href="{% url 'items_list' office_building.slug %}" class="office_container">
+                    <h3>{{ office_building }}</h3>
+                </a>
+            {% endfor %}
+        </div>
+    </div>
+
     <div class="content">
         {% block content %}
         {% endblock %}
     </div>
 
-    <script>
-
+    <script src="{% static 'js/officesMenuHandler.js' %}">
     </script>
 </body>
 </html>

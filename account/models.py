@@ -6,7 +6,6 @@ from django.urls import reverse
 class CustomUser(AbstractUser):
     slug = models.SlugField(max_length=255, unique=True, verbose_name="URL пользователя")
     office_building = models.ForeignKey('OfficeBuilding', related_name='users', null=True, on_delete=models.SET_NULL)
-    # role = models.ForeignKey('Role', related_name='users', null=True, on_delete=models.SET_NULL)
     type = models.ForeignKey('items_management.ItemType', related_name='responsible_persons', null=True, on_delete=models.PROTECT)
     is_admin = models.BooleanField(default=False, verbose_name='Администатор')
     stocktalking_responsible = models.BooleanField(default=False, verbose_name='Ответсвенный за инвентаризацию')

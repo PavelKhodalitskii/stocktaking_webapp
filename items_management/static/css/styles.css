@@ -168,3 +168,54 @@ td {
   color: black;
   text-align: left;
 }
+
+
+/* office menu */
+
+.office_menu {
+  display: none;
+  flex-direction: column;
+  position: fixed;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 20%;
+}
+
+.office_menu_head {
+  height: 75px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  background-color: #EA2929;
+  color: black;
+}
+
+.office_menu h2 {
+  padding-left: 40px;
+  font-size: 35px;
+}
+
+.close_button {
+  float: right;
+  margin-right: 20px; 
+  height: 30px;
+  width: 30px;
+}
+
+.offices_wrapper {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background-color: #00504E;
+  color: white;
+}
+
+.offices_wrapper a {
+  padding-left: 20px;
+}
+
+.offices_wrapper h3 {
+  font-size: 14pt;
+  color: white;
+}
