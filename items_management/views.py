@@ -86,6 +86,7 @@ class ItemDetailView(DetailView):
     def get_context_data(self, **kwargs: Any) -> dict[str, Any]:
         context = super().get_context_data(**kwargs)
 
+        context['title'] = "Информация об объекте"
         office_building_slug = self.kwargs['officebuilding_slug']
         context['office_building_slug'] = office_building_slug
         return context
