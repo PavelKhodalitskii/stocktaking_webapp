@@ -51,7 +51,7 @@ class Ivent(models.Model):
                     relation.save()
 
     def __str__(self):
-        return "Инвентаризация " + str(self.office_building) + f"{str(self.data_start)} - {str(self.data_end)}"
+        return "Инвентаризация " + str(self.office_building) + "; " + f"{str(self.data_start)} - {str(self.data_end)}"
     # Написать метод save()
 
 

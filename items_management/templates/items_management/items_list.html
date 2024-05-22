@@ -2,27 +2,57 @@
 {% load static %}
 
 {% block content %}
-    <div class="table_wrapper">
-        <table class="items_table">
-            <thead>
-                <tr>
-                    <th style="border-top-left-radius: 10px; padding-left: 10px;">ID</th>
-                    <th>Инвентарный номер</th>
-                    <th>Имя</th>
-                    <th>Тип</th>
-                    <th>Кол-во <img src="{% static 'images/utils/triangle-sort.png' %}" class="sort_image" onclick="changeOrder(sort_name='amount_sort', value_1='ascending', value_2='descending', default_value='descending')"></button></th> 
-                    <th>Стоимость <button onclick="changeOrder(sort_name='value_sort', value_1='expensive', value_2='cheap', default_value='cheap')"></button></th>
-                    <th>Оценочное кол-во</th>
-                    <th>Оценочная Стоимость <button onclick="changeOrder(sort_name='assessed_value_sort', value_1='expensive', value_2='cheap', default_value='cheap')"></button></th>
-                    <th>Помещение</th>
-                    <th>Материально Ответственное Лицо</th>
-                    <th style="border-top-right-radius: 10px;">Действительно на <button onclick="changeOrder(sort_name='valid_from_sort', value_1='ascending', value_2='descending', default_value='descending')"></button></th> 
-                </tr>
-            </thead>
-            <tbody>
-                {% for item in items %}
-                    <tr {% if forloop.counter|divisibleby:2 %}style="background-color: #D9D9D9"{% endif %}>
-                        <a class="table_row_wrapper" href="{{ item.get_absolute_url }}">
+    <div class="contet_wrapper">
+        <div class="table_control_menu">
+            <button onclick="clearSorts()">Сбросить сортировки</button>
+        </div>
+        <div class="table_wrapper">
+            <table class="items_table">
+                <thead>
+                    <tr>
+                        <th style="border-top-left-radius: 10px; padding-left: 10px;">ID</th>
+                        <th>Инвентарный номер</th>
+                        <th>Имя</th>
+                        <th>
+                            <form class="filter" action="{% url 'items_list' office_building_slug %}" method="GET">
+                                <select name="type" onchange="this.form.submit()">
+                                    <option value="">Тип</option>
+                                    {% for type in types %}
+                                        <option value="{{ type.id }}" {% if request.GET.type == type.id %} selected {% endif %}>{{ type.name }}</option>
+                                    {% endfor %}
+                                </select>
+                            </form>
+                        </th>
+                        <th>Кол-во <img src="{% static 'images/utils/triangle-sort.png' %}" class="sort_image" onclick="changeOrder(sort_name='amount_sort', value_1='ascending', value_2='descending', default_value='descending')"></th> 
+                        <th>Стоимость <img src="{% static 'images/utils/triangle-sort.png' %}" class="sort_image" onclick="changeOrder(sort_name='value_sort', value_1='expensive', value_2='cheap', default_value='cheap')"></th>
+                        <th>Оценочное кол-во <img src="{% static 'images/utils/triangle-sort.png' %}" class="sort_image" onclick="changeOrder(sort_name='assessed_value_sort', value_1='expensive', value_2='cheap', default_value='cheap')"></th>
+                        <th>Оценочная Стоимость <img src="{% static 'images/utils/triangle-sort.png' %}" class="sort_image" onclick="changeOrder(sort_name='assessed_value_sort', value_1='expensive', value_2='cheap', default_value='cheap')"></th>
+                        <th>
+                            <form class="filter" action="{% url 'items_list' office_building_slug %}" method="GET">
+                                <select name='office' onchange="this.form.submit()">
+                                    <option value="">Помещение</option>
+                                    {% for office in offices %}
+                                        <option value="{{ office.id }}" {% if request.GET.office == office.id %} selected {% endif %}>{{ office.name }}</option>
+                                    {% endfor %}
+                                </select>
+                            </form>
+                        </th>
+                        <th>
+                            <form class="filter" action="{% url 'items_list' office_building_slug %}" method="GET">
+                                <select name="responsible_person" onchange="this.form.submit()">
+                                    <option value="">Материально Ответственное Лицо</option>
+                                    {% for user in users %}
+                                        <option value="{{ user.id }}" {% if request.GET.responsible_person == user.id %} selected {% endif %}>{{ user.first_name }} {{ user.last_name }}</option>
+                                    {% endfor %}
+                                </select>
+                            </form>
+                        </th>
+                        <th style="border-top-right-radius: 10px;">Действительно на <img src="{% static 'images/utils/triangle-sort.png' %}" class="sort_image" onclick="changeOrder(sort_name='valid_from_sort', value_1='ascending', value_2='descending', default_value='descending')"></th> 
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in items %}
+                        <tr {% if forloop.counter|divisibleby:2 %}style="background-color: #D9D9D9"{% endif %}>
                             <td style="padding-left: 10px;"><a class="table_row_wrapper" href="{{ item.get_absolute_url }}">{{ item.id }}</a></td>
                             <td><a class="table_row_wrapper" href="{{ item.get_absolute_url }}">{{ item.item_number }}</a></td>
                             <td><a class="table_row_wrapper" href="{{ item.get_absolute_url }}">{{ item.name }}</a></td>
@@ -34,44 +64,11 @@
                             <td><a class="table_row_wrapper" href="{{ item.get_absolute_url }}">{{ item.office }}</a></td>
                             <td><a class="table_row_wrapper" href="{{ item.get_absolute_url }}">{{ item.financially_responsible_person.first_name }} {{ item.financially_responsible_person.last_name }}</td>
                             <td><a class="table_row_wrapper" href="{{ item.get_absolute_url }}">{{ item.valid_from }}</a></td>
-                        </a>
-                    </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-    </div>
-    <div class="items_list">
-        <form class="filter" action="{% url 'items_list' office_building_slug %}" method="GET">
-            <select name='office' onchange="this.form.submit()">
-                <option value="">Помещение</option>
-                {% for office in offices %}
-                    <option value="{{ office.id }}" {% if request.GET.office == office.id %} selected {% endif %}>{{ office.name }}</option>
-                {% endfor %}
-            </select>
-            <select name="type" onchange="this.form.submit()">
-                <option value="">Тип</option>
-                {% for type in types %}
-                    <option value="{{ type.id }}" {% if request.GET.type == type.id %} selected {% endif %}>{{ type.name }}</option>
-                {% endfor %}
-            </select>
-            <select name="responsible_person" onchange="this.form.submit()">
-                <option value="">Ответственный</option>
-                {% for user in users %}
-                    <option value="{{ user.id }}" {% if request.GET.responsible_person == user.id %} selected {% endif %}>{{ user.first_name }} {{ user.last_name }}</option>
-                {% endfor %}
-            </select>
-        </form>
-        <button onclick="changeOrder(sort_name='value_sort', value_1='expensive', value_2='cheap', default_value='cheap')">Стоимость</button>
-        <button onclick="changeOrder(sort_name='assessed_value_sort', value_1='expensive', value_2='cheap', default_value='cheap')">Оценочная стоимость</button>
-        <button onclick="changeOrder(sort_name='amount_sort', value_1='ascending', value_2='descending', default_value='descending')">Колличество</button>
-        <button onclick="changeOrder(sort_name='valid_from_sort', value_1='ascending', value_2='descending', default_value='descending')">Актуально на</button>
-        {% for item in items %}
-            <div class="item">
-                <h3><a href="{{ item.get_absolute_url }}">{{ item.name }}</a>, {{item.item_number}}</h3>
-                <p>{{item.value}}</p>
-                <p>{{item.financially_responsible_person}}</p>
-            </div>
-        {% endfor %}
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
     </div>
     <script src="{% static 'js/changeOrder.js' %}">
     </script>

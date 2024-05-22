@@ -34,6 +34,7 @@ class InventoryItems(models.Model):
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
         self.qr_file_path = generate_qr_code(self)
+        super().save(*args, **kwargs)
 
     def get_qr_code(self):
         return self.qr_file_path

@@ -3,19 +3,26 @@ from django.shortcuts import redirect, render
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth import views as auth_views
 from django.urls import reverse_lazy
+from django.views.generic import CreateView
 
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
 
-from .forms import LoginForm
+from .forms import LoginForm, RegisterUserForm
 from .models import OfficeBuilding, Office, CustomUser
 from .serializers import OfficeSerializer, CustomUserSerializer
 from items_management.permissions import IsOwner
 
+class RegisterUser(CreateView):
+    form_class = RegisterUserForm
+    template_name = 'account/register.html'
+    success_url = reverse_lazy('site_login')
+
+
 class LoginUser(auth_views.LoginView):
     form_class = LoginForm
-    template_name = 'login.html'
+    template_name = 'account/login.html'
 
     def get_success_url(self) -> str:
         return reverse_lazy('items_list', kwargs={'officebuilding_slug': OfficeBuilding.objects.get(pk=1).slug})

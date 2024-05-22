@@ -8,6 +8,10 @@
     <title>Авторизация</title>
 </head>
 <body>
+    {% if request.user.is_superuser %}
+        <a href="{% url 'site_register' %}">Форма для регистрации новых пользователей</a>
+    {% endif %}
+
     <h1>Авторизация</h1>
     <form method="post">
         {{ form.as_p }}
