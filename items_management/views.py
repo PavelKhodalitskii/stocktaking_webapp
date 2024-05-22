@@ -8,7 +8,7 @@ from rest_framework.permissions import IsAdminUser
 from django.views.generic import ListView, DetailView
 from django.contrib.auth.mixins import LoginRequiredMixin
 
-from .models import InventoryItems, ItemType
+from .models import InventoryItems, ItemType, Status
 from account.models import CustomUser, Office, OfficeBuilding
 
 from .serizalizers import InventoryItemsSerializer
@@ -101,3 +101,8 @@ class InventoryItemRetriveAPIView(APIView):
     def get(self, request, item_id):
         item = InventoryItems.objects.get(id=item_id)
         return Response({f"item {item_id}": InventoryItemsSerializer(item).data})
+    
+class StatusesListApiView(APIView):
+    def get(self, request):
+        statuses = Status.objects.all()
+        return Response({'statuses': StatusSerizalizer(statuses, many=True).data})
