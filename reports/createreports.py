@@ -65,6 +65,7 @@ def create_report(report_id = 1):
         for counter, item in enumerate(items, start=1):
             latest_relation = item.relationitemsreports_set.all().latest('last_scan_datetime') if item.relationitemsreports_set.exists() else None
             assessed_amount = latest_relation.assessed_amount if latest_relation else None
+            status = latest_relation.status if latest_relation else None
 
             row_data = [
                 counter,
@@ -73,14 +74,14 @@ def create_report(report_id = 1):
                 item.value,
                 item.amount,
                 item.amount * item.value,
-                item.status.name if item.status else None,
+                status.name if status is not None else "Без статуса",
                 assessed_amount,
                 item.assessed_value,
                 assessed_amount - item.amount,
                 (assessed_amount - item.amount) * item.assessed_value,
                 item.amount - assessed_amount,
                 (item.amount - assessed_amount) * item.assessed_value,
-                item.financially_responsible_person.username if item.financially_responsible_person else None,
+                item.financially_responsible_person.first_name + item.financially_responsible_person.last_name if item.financially_responsible_person else None,
                 latest_relation.note if latest_relation else None
             ]
 

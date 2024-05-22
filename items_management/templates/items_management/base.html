@@ -28,9 +28,11 @@
                 <div class="header_item">
                     <a href="{% url 'items_list' office_building_slug %}" class="header_link">Обьекты учета</a>
                 </div>
-                <div class="header_item">
-                    <a href="!#" class="header_link">Лицензии</a>
-                </div>
+                {% if request.user.is_admin %}
+                    <div class="header_item">
+                        <a href="!#" class="header_link">Лицензии</a>
+                    </div>
+                {% endif %}
                 <div class="header_item">
                     <a href="{% url 'reports' office_building_slug %}" class="header_link">Отчёты</a>
                 </div>
@@ -41,6 +43,9 @@
         </div>
         <div class="user_info">
             {% if request.user.is_authenticated %}
+                {% if request.user.is_superuser %}
+                    <a href="{% url 'admin:index' %}">Админ панель</a>
+                {% endif %}
                 <p>Вы авторизованы как: <a>{{ user.username }}</a></p>
                 <a href="{% url 'site_logout' %}">Выйти</a>
             {% endif %}

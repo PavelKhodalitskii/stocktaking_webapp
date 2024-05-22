@@ -32,6 +32,7 @@ def root_redirect(request):
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    # path(r'^admin/', include(admin.site.urls)),
     path('inventory_items/', include('items_management.urls'), name='api'),
     path('account/', include('account.urls'), name='account'),
     path('reports/', include('reports.urls'), name='reports'),
