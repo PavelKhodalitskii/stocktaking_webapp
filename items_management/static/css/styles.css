@@ -59,6 +59,7 @@ a {
 }
 
 .naviagation_list {
+  height: 100%;
   display: flex;
   flex-wrap: wrap;
   padding-left: 0px;
@@ -68,11 +69,21 @@ a {
   display: flex;
   align-items: center;
   color: white;
+  height: 100%;
   font-weight: 400;
   text-align: left;
   cursor: pointer;
-  margin: 20px;
+  padding-left: 20px;
+  padding-right: 20px;
   list-style: none;
+}
+
+.header_item:hover {
+  background-color: #EA2929;
+}
+
+#offces_menu:hover {
+  background-color: transparent;
 }
 
 .header_link {
@@ -169,6 +180,11 @@ td {
   text-align: left;
 }
 
+.create_report {
+  margin-left: 20px;
+  font-size: 12pt;
+}
+
 
 /* office menu */
 
@@ -218,4 +234,8 @@ td {
 .offices_wrapper h3 {
   font-size: 14pt;
   color: white;
+}
+
+.office_container:hover {
+  background-color: #EA2929;
 }

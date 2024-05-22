@@ -19,25 +19,25 @@
 <body>
     <header class="header">
         <div class="navigation_bar">
-            <ul class="naviagation_list">
+            <div class="naviagation_list">
                 {% if request.user.is_superuser %}
-                    <li class="header_item">
+                    <div class="header_item" id="offces_menu">
                         <div id="menu_button" class="menu_button" onclick="toggleMenu()">&#9776;</div>
-                    </li>
+                    </div>
                 {% endif %}
-                <li class="header_item">
+                <div class="header_item">
                     <a href="{% url 'items_list' office_building_slug %}" class="header_link">Обьекты учета</a>
-                </li>
-                <li class="header_item">
+                </div>
+                <div class="header_item">
                     <a href="!#" class="header_link">Лицензии</a>
-                </li>
-                <li class="header_item">
+                </div>
+                <div class="header_item">
                     <a href="{% url 'reports' office_building_slug %}" class="header_link">Отчёты</a>
-                </li>
-                <li class="header_item">
+                </div>
+                <div class="header_item">
                     <a href="!#" class="header_link">Сотрудники</a>
-                </li>
-            </ul>
+                </div>
+            </div>
         </div>
         <div class="user_info">
             {% if request.user.is_authenticated %}
