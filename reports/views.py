@@ -71,6 +71,7 @@ class ReportsView(TemplateView):
         office_building_slug = self.kwargs['officebuilding_slug']
         context['office_building_slug'] = office_building_slug
 
+        context['office_buildings'] = OfficeBuilding.objects.all()
         context['statuses'] = Status.objects.all()
         context['users'] = CustomUser.objects.all().filter(office_building__slug = office_building_slug)
         context['items'] = self.get_report_items()
