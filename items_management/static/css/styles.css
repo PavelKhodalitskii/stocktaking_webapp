@@ -239,3 +239,13 @@ td {
 .office_container:hover {
   background-color: #EA2929;
 }
+
+.detail_view_wrapper {
+  display: flex;
+  flex-direction: column;
+}
+
+.qr_code {
+  height: 350px;
+  width: 350px;
+}
