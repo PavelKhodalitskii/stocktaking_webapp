@@ -106,7 +106,7 @@ class ReportItemsApiView(APIView):
     
     def validate_put_data(self, data):
         for field in self.put_fields_forbidden:
-            if not field in data.keys():
+            if field in data.keys():
                 return False
 
         return True
