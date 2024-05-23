@@ -11,7 +11,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from .models import InventoryItems, ItemType, Status
 from account.models import CustomUser, Office, OfficeBuilding
 
-from .serizalizers import InventoryItemsSerializer
+from .serizalizers import InventoryItemsSerializer, StatusSerizalizer
 from .permissions import IsOwner
 
 

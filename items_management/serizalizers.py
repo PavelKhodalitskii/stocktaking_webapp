@@ -2,7 +2,7 @@ from rest_framework import serializers
 
 from account.models import Office, CustomUser
 from account.serializers import OfficeSerializer, CustomUserSerializer
-from .models import InventoryItems
+from .models import InventoryItems, Status
 
 #Items managemetn serializers
 class InventoryItemsSerializer(serializers.ModelSerializer):
@@ -22,4 +22,8 @@ class InventoryItemsSerializer(serializers.ModelSerializer):
         if obj.financially_responsible_person:
             user = CustomUser.objects.get(id=obj.financially_responsible_person.id)
             return CustomUserSerializer(user).data
-        
+
+class StatusSerizalizer(serializers.ModelSerializer):
+    class Meta:
+        model = Status
+        fields = "__all__"
