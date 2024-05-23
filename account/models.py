@@ -8,7 +8,7 @@ class CustomUser(AbstractUser):
     office_building = models.ForeignKey('OfficeBuilding', related_name='users', null=True, on_delete=models.SET_NULL)
     type = models.ForeignKey('items_management.ItemType', related_name='responsible_persons', null=True, on_delete=models.PROTECT)
     is_admin = models.BooleanField(default=False, verbose_name='Администатор')
-    stocktalking_responsible = models.BooleanField(default=False, verbose_name='Ответсвенный за инвентаризацию')
+    is_stocktalking_responsible = models.BooleanField(default=False, verbose_name='Ответсвенный за инвентаризацию')
 
     def __str__(self):
         return self.username
