@@ -5,7 +5,7 @@
 
 {% block content %}
     <div class="contet_wrapper">
-        {% if request.user.stocktalking_responsible %}
+        {% if request.user.is_stocktalking_responsible %}
             <h1>Мой список инвентаризации:</h1>
             <div class="table_control_menu">
                 <button onclick="clearSorts()">Сбросить сортировки</button>
