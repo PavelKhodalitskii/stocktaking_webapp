@@ -307,3 +307,41 @@ td {
   width: 70px;
   height: 40px;
 }
+
+/* Селекты  */
+
+select {
+  border-style: none;
+  background-color: transparent;
+  font-family: 'Geologica';
+  font-weight: 400;
+  font-size: 12pt;
+  color: white;
+}
+
+option {
+  background-color: #767676;
+  font-family: 'Geologica';
+  font-weight: 400;
+  font-size: 12pt;
+  color: white;
+}
+
+/* Кнопки */
+
+button {
+  border-style: none;
+  border-radius: 20px;
+  background-color: #EDEDED;
+  color: black;
+  font-family: 'Geologica';
+  font-weight: 300;
+  font-size: 12pt;
+  height: 40px;
+  width: 200px;
+}
+
+button:hover {
+  background-color: #767676;
+  color: white;
+}
