@@ -1,13 +1,19 @@
 from typing import Any
+
 from rest_framework import generics
-from django.shortcuts import render
-from django.http import HttpResponse
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework.permissions import IsAdminUser
+
 from django.views.generic import ListView, DetailView
 from django.contrib.auth.mixins import LoginRequiredMixin
 
-from .models import InventoryItems, ItemType
-from account.models import CustomUser, Office
-from .serizalizers import InventoryItemsSerializer
+from .models import InventoryItems, ItemType, Status
+from account.models import CustomUser, Office, OfficeBuilding
+
+from .serizalizers import InventoryItemsSerializer, StatusSerizalizer
+from .permissions import IsOwner
+
 
 class ItemsListView(LoginRequiredMixin, ListView):
     model = InventoryItems
@@ -23,12 +29,14 @@ class ItemsListView(LoginRequiredMixin, ListView):
         context['offices'] = Office.objects.all().filter(office_building__slug=office_building_slug)
         context['types'] = ItemType.objects.all()
         context['users'] = CustomUser.objects.all().filter(office_building__slug=office_building_slug)
+        context['office_buildings'] = OfficeBuilding.objects.all()
         context['office_building_slug'] = office_building_slug
         return context
 
     def get_queryset(self) -> generics.QuerySet[Any]:
         office_building_slug = self.kwargs['officebuilding_slug']
         queryset = super().get_queryset()
+        queryset = queryset.order_by('-valid_from')
         queryset = queryset.filter(office__office_building__slug=office_building_slug)
 
         office_id = self.request.GET.get('office')
@@ -78,6 +86,7 @@ class ItemDetailView(DetailView):
     def get_context_data(self, **kwargs: Any) -> dict[str, Any]:
         context = super().get_context_data(**kwargs)
 
+        context['title'] = "Информация об объекте"
         office_building_slug = self.kwargs['officebuilding_slug']
         context['office_building_slug'] = office_building_slug
         return context
@@ -85,8 +94,15 @@ class ItemDetailView(DetailView):
 class InvenoryItemsAPIView(generics.ListAPIView):
     queryset = InventoryItems.objects.all()
     serializer_class = InventoryItemsSerializer
-    pass
 
-# Create your views here.
-def main_view():
-    return HttpResponse()
+class InventoryItemRetriveAPIView(APIView):
+    permission_classes = (IsAdminUser, IsOwner)
+
+    def get(self, request, item_id):
+        item = InventoryItems.objects.get(id=item_id)
+        return Response({f"item {item_id}": InventoryItemsSerializer(item).data})
+    
+class StatusesListApiView(APIView):
+    def get(self, request):
+        statuses = Status.objects.all()
+        return Response({'statuses': StatusSerizalizer(statuses, many=True).data})

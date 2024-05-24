@@ -19,26 +19,33 @@
 <body>
     <header class="header">
         <div class="navigation_bar">
-            <ul class="naviagation_list">
-                <li class="header_item">
-                    <div class="menu-btn" onclick="toggleMenu()">&#9776;</div>
-                </li>
-                <li class="header_item">
-                    <a href="{% url 'items_list' office_building_slug %}" class="header_link">Обьекты учета</a>
-                </li>
-                <li class="header_item">
-                    <a href="!#" class="header_link">Лицензии</a>
-                </li>
-                <li class="header_item">
-                    <a href="!#" class="header_link">Отчёты</a>
-                </li>
-                <li class="header_item">
-                    <a href="!#" class="header_link">Сотрудники</a>
-                </li>
-            </ul>
+            <div class="naviagation_list">
+                {% if request.user.is_superuser %}
+                    <div class="header_item" id="offces_menu">
+                        <div id="menu_button" class="menu_button" onclick="toggleMenu()">&#9776;</div>
+                    </div>
+                {% endif %}
+                <a href="{% url 'items_list' office_building_slug %}" class="header_item">
+                    <p class="header_link">Обьекты учета</p>
+                </a>
+                {% if request.user.is_admin %}
+                    <a href="!#" class="header_item">
+                        <p href="!#" class="header_link">Лицензии</p>
+                    </a>
+                {% endif %}
+                <a href="{% url 'reports' office_building_slug %}" class="header_item">
+                    <p class="header_link">Отчёты</p>
+                </a>
+                <a href="{% url 'users' office_building_slug%}" class="header_item">
+                    <p class="header_link">Сотрудники</p>
+                </a>
+            </div>
         </div>
         <div class="user_info">
             {% if request.user.is_authenticated %}
+                {% if request.user.is_superuser %}
+                    <a href="{% url 'admin:index' %}">Админ панель</a>
+                {% endif %}
                 <p>Вы авторизованы как: <a>{{ user.username }}</a></p>
                 <a href="{% url 'site_logout' %}">Выйти</a>
             {% endif %}
@@ -46,13 +53,27 @@
     </header>
     <div class="underline"></div>
     
+    <!--боковое меню-->
+    <div id="office_menu" class="office_menu">
+        <div class="office_menu_head">
+            <h2>Офисы</h2>
+            <button class="close_button" id="close_button">&#10006;</button>
+        </div>
+        <div class="offices_wrapper">
+            {% for office_building in office_buildings %}
+                <a href="{% url 'items_list' office_building.slug %}" class="office_container">
+                    <h3>{{ office_building }}</h3>
+                </a>
+            {% endfor %}
+        </div>
+    </div>
+
     <div class="content">
         {% block content %}
         {% endblock %}
     </div>
 
-    <script>
-
+    <script src="{% static 'js/officesMenuHandler.js' %}">
     </script>
 </body>
 </html>

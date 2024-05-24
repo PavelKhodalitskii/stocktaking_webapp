@@ -10,5 +10,7 @@ __pycache__/
 db.sqlite3
 .sqlite3
 
+media/qr_codes/*.png
+
 cert.crt
 cert.key

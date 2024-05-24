@@ -13,4 +13,4 @@ class IventsAdmin(admin.ModelAdmin):
 
 @admin.register(RelationItemsReports)
 class RelationItemsReportAdmin(admin.ModelAdmin):
-    list_display = ('id', 'item', 'report', 'datatime', 'assessed_value', 'status')
+    list_display = ('id', 'item', 'report', 'last_scan_datetime', 'assessed_value', 'status')

@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 
 from pathlib import Path
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -25,7 +26,8 @@ SECRET_KEY = 'django-insecure-zbv3v&!d%7%5l4wq65cyt8_4#x1@%6jh%73#e6o)_ajf!86l3s
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1', '0.0.0.0', 'stocktalking.ru']
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', '0.0.0.0', 'stocktalking.ru', '192.168.0.130']
+# CSRF_TRUSTED_ORIGINS = ['https://localhost:8000', 'https://127.0.0.1:8000', 'https://0.0.0.0:8000', 'https://172.21.0.1:8000']
 
 # Application definition
 
@@ -129,6 +131,10 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
 STATIC_URL = 'static/'
+STATIC_DIRS = os.path.join(BASE_DIR, 'static')
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
@@ -149,6 +155,15 @@ REST_FRAMEWORK = {
     ],
 
     'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.SessionAuthentication',
         'rest_framework.authentication.TokenAuthentication',
+    ],
+
+    'DEFAULT_PERMISSION_CLASSES': [
+      'rest_framework.permissions.IsAuthenticated',
     ]
 }
+
+# STOCKTALKING_RESPONSIBLE_ROLE_NAME = 'Ответсвенный за инвентаризацию'
+# SUPERADMIN_ROLE_NAME = 'Супер-админ'
+# ADMIN_ROLE_NAME = 'Админ'

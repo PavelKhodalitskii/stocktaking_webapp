@@ -59,6 +59,7 @@ a {
 }
 
 .naviagation_list {
+  height: 100%;
   display: flex;
   flex-wrap: wrap;
   padding-left: 0px;
@@ -68,11 +69,21 @@ a {
   display: flex;
   align-items: center;
   color: white;
+  height: 100%;
   font-weight: 400;
   text-align: left;
   cursor: pointer;
-  margin: 20px;
+  padding-left: 20px;
+  padding-right: 20px;
   list-style: none;
+}
+
+.header_item:hover {
+  background-color: #EA2929;
+}
+
+#offces_menu:hover {
+  background-color: transparent;
 }
 
 .header_link {
@@ -108,3 +119,191 @@ a {
   margin: 40px;
 }
 
+.contet_wrapper {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.table_wrapper {
+  margin-top: 40px;
+  width: 100%;
+}
+
+table, th, td {
+  border-collapse: collapse;
+}
+
+.sort_image {
+  height: 15px;
+  width: 15px;
+}
+
+.sort_image:hover {
+  rotate: 180deg;
+}
+
+.items_table {
+  margin: 0, auto;
+  width: 100%;
+  border-radius: 10px;
+  padding: 10px;
+  background: #EDEDED;
+}
+
+tr {
+  height: 40px;
+}
+
+th {
+  font-family: 'Geologica';
+  font-weight: 400;
+  font-size: 12pt;
+  color: white;
+  text-align: left;
+  background: #767676;
+}
+
+.table_row_wrapper {
+  font-family: 'Geologica';
+  font-weight: 200;
+  font-size: 12pt;
+  color: black;
+  text-align: left;
+}
+
+td {
+  font-family: 'Geologica';
+  font-weight: 200;
+  font-size: 12pt;
+  color: black;
+  text-align: left;
+}
+
+.create_report {
+  margin-left: 20px;
+  font-size: 12pt;
+}
+
+
+/* office menu */
+
+.office_menu {
+  display: none;
+  flex-direction: column;
+  position: fixed;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 20%;
+}
+
+.office_menu_head {
+  height: 75px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  background-color: #EA2929;
+  color: black;
+}
+
+.office_menu h2 {
+  padding-left: 40px;
+  font-size: 35px;
+}
+
+.close_button {
+  float: right;
+  margin-right: 20px; 
+  height: 30px;
+  width: 30px;
+}
+
+.offices_wrapper {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background-color: #00504E;
+  color: white;
+}
+
+.offices_wrapper a {
+  padding-left: 20px;
+}
+
+.offices_wrapper h3 {
+  font-size: 14pt;
+  color: white;
+}
+
+.office_container:hover {
+  background-color: #EA2929;
+}
+
+.detail_view_wrapper {
+  display: flex;
+  flex-direction: column;
+}
+
+.qr_code {
+  height: 350px;
+  width: 350px;
+}
+
+
+/* login wrapper */
+
+.login_container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border-radius: 20px;
+	width: 330px;
+  height: 500px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin: -250px 0 0 -220px;
+  background: white;
+	border: 1px solid rgb(107, 107, 107);
+	padding: 20px;
+}
+
+.login_container img {
+  height: 100px;
+  width: 100px;
+}
+
+.login_container input {
+  padding-left: 10px;
+  font-size: 20px;
+  font-weight: 500;
+  border-radius: 20px;
+  border: 1px solid rgb(107, 107, 107);
+  width: 300px;
+  height: 50px;
+}
+
+.login_container p {
+  margin: 10px;
+}
+
+.login_container form {
+  display: flex;
+  flex-direction: column;
+  align-items: center
+}
+
+.form_label {
+  color: black;
+  padding: 0;
+}
+
+.submit_button {
+  border-radius: 10px;
+  border: 1px solid rgb(107, 107, 107);
+  background-color: #EA2929;
+  width: 70px;
+  height: 40px;
+}
