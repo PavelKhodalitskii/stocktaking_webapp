@@ -17,8 +17,8 @@ class RegisterUserForm(UserCreationForm):
     slug = forms.SlugField(label='Слаг', widget=forms.TextInput(attrs={'class': 'form-input', 'placeholder': 'Слаг'}))
     office_building = forms.ModelChoiceField(OfficeBuilding.objects.all())
     type = forms.ModelChoiceField(ItemType.objects.all())
-    is_admin = forms.BooleanField(label='Администратор')
-    stocktalking_responsible = forms.BooleanField(label='Ответсвенный за инвентаризацию')
+    is_admin = forms.BooleanField(label='Администратор', required=False)
+    stocktalking_responsible = forms.BooleanField(label='Ответсвенный за инвентаризацию', required=False)
 
 
     class Meta:

@@ -85,13 +85,13 @@
                     </thead>
                     <tbody>
                         {% for report in reports %}
-                            <div class="report">
+                            <tr class="report">
                                 <td style="padding-left: 10px;">{{ report.id }}</td>
                                 <td>{{ report.author.first_name }} {{ report.author.last_name }}</td>
                                 <td>{{ report.type }}</td>
                                 <td>{{ report.note }}</td>
                                 <td>{{ report.finish_datetime }}</td>
-                            </div>
+                            </tr>
                         {% endfor %}
                     </tbody>
                 </table>

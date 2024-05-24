@@ -60,7 +60,7 @@ def create_place_holder_items(amount, offices_amount):
                                     item_number=i + 1, 
                                     slug=f"placeholder_{i + 1}", 
                                     name="Placeholder",
-                                    office=Office.objects.get(id=random.randint(1, offices_amount)),
+                                    office=Office.objects.get(id=random.randint(1, offices_amount - 1)),
                                     type=ItemType.objects.get(pk=1),
                                     financially_responsible_person=CustomUser.objects.get(pk=1),
                                     status=Status.objects.get(pk=1)
